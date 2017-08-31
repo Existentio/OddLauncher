@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.brandnew.greatlauncher.activity.HomeActivity">
+
+    <ImageButton
+        android:id="@+id/btn_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/ic_shortcut_search" />
+
+    <LinearLayout
+        android:id="@+id/search_bar_home"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/btn_dec_search"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
+            app:srcCompat="@drawable/ic_search_black_24dp" />
+
+        <EditText
+            android:id="@+id/search_bar_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/search"
+            android:maxLines="1"
+            android:padding="5dp" />
+
+        <ImageButton
+            android:id="@+id/btn_cancel_search"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
+            app:srcCompat="@drawable/ic_cancel_24dp" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_search"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/search_bar_home"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rl_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/half_grey"
+            android:numColumns="auto_fit" />
+    </FrameLayout>
+
+    <View
+        android:id="@+id/center_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@id/center_view"
+        android:alpha="0.6"
+        android:background="@drawable/left_oval_selector" />
+
+    <ImageButton
+        android:id="@+id/right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical"
+        android:layout_toRightOf="@id/center_view"
+        android:alpha="0.6"
+        android:background="@drawable/right_oval_selector" />
+
+    <FrameLayout
+        android:id="@+id/frame_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/left"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_view_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/half_blue"
+            android:numColumns="auto_fit" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/right"
+        android:visibility="gone"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_view_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/half_green"
+            android:numColumns="auto_fit" />
+    </FrameLayout>
+
+    <fragment
+        android:id="@+id/my_fragment"
+        android:name="com.brandnew.greatlauncher.fragments.MenuFragment"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        tools:context="com.brandnew.greatlauncher.fragments.MenuFragment"
+        tools:layout="@layout/fragment_menu" />
+
+
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/new_feature"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:background="@color/blue"-->
+        <!--android:visibility="gone"-->
+        <!--/>-->
+
+    <!--<menu-->
+        <!--android:id="@+id/new_feature"-->
+        <!--android:name="com.brandnew.greatlauncher.fragments.MenuFragment"-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:visibility="gone"-->
+        <!--tools:context="com.brandnew.greatlauncher.fragments.MenuFragment"-->
+        <!--tools:layout="@layout/new_feature_menu" />-->
+
+
+</RelativeLayout>
+

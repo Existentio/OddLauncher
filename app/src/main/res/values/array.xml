@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Design-->
+    <!-- Label ordering must match values -->
+    <array name="pref_color_option_labels">
+        <item>@string/pref_color_label_initial</item>
+        <item>@string/pref_color_label_red</item>
+        <item>@string/pref_color_label_orange</item>
+        <item>@string/pref_color_label_yellow</item>
+        <item>@string/pref_color_label_grey</item>
+        <item>@string/pref_color_label_rhomb</item>
+        <item>@string/pref_color_label_hexagon</item>
+    </array>
+
+    <array name="pref_color_option_values">
+        <item>@string/pref_color_initial_value</item>
+        <item>@string/pref_color_red_value</item>
+        <item>@string/pref_color_orange_value</item>
+        <item>@string/pref_color_label_yellow_value</item>
+        <item>@string/pref_color_label_grey_value</item>
+        <item>@string/pref_color_label_rhomb_value</item>
+        <item>@string/pref_color_label_hexagon_value</item>
+    </array>
+
+
+    <!--Animation-->
+    <array name="pref_anim_option_labels">
+        <item>@string/pref_anim_oval_standard</item>
+        <item>@string/pref_anim_oval_twist</item>
+    </array>
+
+    <array name="pref_anim_option_values">
+        <item>@string/pref_anim_standard_value</item>
+        <item>@string/pref_anim_twist_value</item>
+    </array>
+
+    <!--Form-->
+    <array name="pref_form_option_labels">
+        <item>@string/pref_form_oval</item>
+        <item>@string/pref_form_rhomb</item>
+        <item>@string/pref_form_hexagon</item>
+    </array>
+
+    <array name="pref_form_option_values">
+        <item>@string/pref_form_oval_value</item>
+        <item>@string/pref_form_rhomb_value</item>
+        <item>@string/pref_form_hexagon_value</item>
+    </array>
+
+
+
+</resources>

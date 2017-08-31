@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/additional_menu_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    tools:context="com.brandnew.greatlauncher.fragments.CentralMenuFragment"
+
+    >
+
+
+    <ImageButton
+        android:id="@+id/btn_all_apps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_gravity="center"
+        android:layout_row="0"
+        android:background="?attr/selectableItemBackground"
+        android:layout_margin="40dp"
+
+        app:srcCompat="@drawable/ic_open_all_apps" />
+
+    <ImageButton
+        android:id="@+id/btn_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_gravity="center"
+        android:layout_row="1"
+        android:background="?attr/selectableItemBackground"
+        android:layout_margin="40dp"
+
+        app:srcCompat="@drawable/ic_phone" />
+
+    <ImageButton
+        android:id="@+id/btn_phone_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_gravity="center"
+        android:layout_row="1"
+        android:background="?attr/selectableItemBackground"
+        android:layout_margin="40dp"
+
+        app:srcCompat="@drawable/ic_settings_default" />
+
+    <ImageButton
+        android:id="@+id/btn_browser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_gravity="center"
+        android:layout_row="0"
+        android:background="?attr/selectableItemBackground"
+        android:layout_margin="40dp"
+        app:srcCompat="@drawable/ic_browser" />
+
+</GridLayout>
+

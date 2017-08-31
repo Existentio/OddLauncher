@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--default colors-->
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--home-->
+    <color name="blue">#3F51B5</color>
+    <color name="green">#388E3C</color>
+    <color name="half_blue">#823f51b5</color>
+    <color name="half_green">#82388e3c</color>
+    <color name="yellow">#FFD54F</color>
+    <color name="yellow_dim">#c19c28</color>
+
+    <color name="grey">#EEEEEE</color>
+    <color name="half_grey">#82eeeeee</color>
+    <color name="grey_light">#96eeeeee</color>
+    <color name="green_light">#9015e61f</color>
+
+    <color name="white">#ffffff</color>
+    <color name="white_half">#82ffffff</color>
+    <color name="half_black">#9E9E9E</color>
+    <color name="purple">#3d1271</color>
+    <color name="purple_weak">#AA00FF</color>
+
+
+    <color name="dim">#af000000</color>
+
+
+</resources>

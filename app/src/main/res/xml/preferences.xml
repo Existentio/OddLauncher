@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="1"
+
+        android:title="Размер">
+
+        <Preference
+            android:key="@string/seekbar_size_main_elems"
+            android:defaultValue="320"
+            android:title="Размер главных элементов" />
+
+
+
+        <!--<EditTextPreference-->
+        <!--android:defaultValue="@string/pref_size_default_search"-->
+        <!--android:key="@string/pref_size_key_search"-->
+        <!--android:title="@string/pref_size_label_search"-->
+        <!--android:summary="Значение от 40 до 80"-->
+        <!--/>-->
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="2"
+        android:title="Дизайн">
+        <!--<ListPreference-->
+        <!--android:defaultValue="@string/pref_form_oval"-->
+        <!--android:entries="@array/pref_form_option_labels"-->
+        <!--android:entryValues="@array/pref_form_option_values"-->
+        <!--android:key="@string/pref_form_key"-->
+        <!--android:title="Форма главных элементов" />-->
+
+        <ListPreference
+            android:defaultValue="@string/pref_color_initial_value"
+            android:entries="@array/pref_color_option_labels"
+            android:entryValues="@array/pref_color_option_values"
+            android:key="@string/pref_color_key"
+            android:title="Левый элемент" />
+
+        <ListPreference
+            android:defaultValue="@string/pref_color_initial_value"
+            android:entries="@array/pref_color_option_labels"
+            android:entryValues="@array/pref_color_option_values"
+            android:key="@string/pref_color_key_right"
+            android:title="Правый элемент" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="3"
+        android:title="Цвет и прозрачность">
+        <Preference
+            android:key="@string/pref_recycler_left_color"
+            android:title="Левый список" />
+
+        <Preference
+            android:key="@string/pref_recycler_right_color"
+            android:title="Правый список" />
+
+
+        <Preference
+            android:key="@string/pref_search_bar_color"
+            android:title="Поисковая панель" />
+
+
+        <Preference
+            android:key="@string/pref_search_list_color"
+            android:title="Список найденных приложений" />
+
+        <Preference
+            android:key="@string/pref_menu_fragment_color"
+            android:title="Выдвижное меню" />
+
+        <!--<EditTextPreference-->
+            <!--android:defaultValue="@string/pref_alpha_default"-->
+            <!--android:key="@string/pref_alpha_key"-->
+            <!--android:summary="Значение от 0.1 до 1"-->
+            <!--android:title="@string/pref_alpha_label"-->
+
+            <!--/>-->
+
+        <!--<EditTextPreference-->
+            <!--android:defaultValue="@string/pref_alpha_search_button_default"-->
+            <!--android:key="@string/pref_alpha_search_button_key"-->
+            <!--android:summary="Значение от 0.1 до 1"-->
+            <!--android:title="@string/pref_alpha_search_button_label"-->
+            <!--/>-->
+        <Preference
+            android:key="@string/seekbar_alpha_main_elems"
+            android:defaultValue="5"
+            android:title="@string/pref_alpha_label" />
+
+        <Preference
+            android:key="@string/seekbar_alpha_search_button"
+            android:defaultValue="10"
+            android:title="@string/pref_alpha_search_button_label" />
+
+
+    </PreferenceCategory>
+
+
+    <!--<PreferenceCategory-->
+    <!--android:key="1"-->
+    <!--android:title="Анимация">-->
+
+    <!--<ListPreference-->
+    <!--android:defaultValue="@string/pref_anim_standard_value"-->
+    <!--android:entries="@array/pref_anim_option_labels"-->
+    <!--android:entryValues="@array/pref_anim_option_values"-->
+    <!--android:key="@string/pref_anim_key"-->
+    <!--android:title="Левый список" />-->
+
+    <!--<ListPreference-->
+    <!--android:defaultValue="@string/pref_color_initial_value"-->
+    <!--android:entries="@array/pref_color_option_labels"-->
+    <!--android:entryValues="@array/pref_color_option_values"-->
+    <!--android:key="@string/pref_color_key"-->
+    <!--android:title="Правый список" />-->
+
+    <!--</PreferenceCategory>-->
+
+
+    <PreferenceCategory
+        android:key="1"
+        android:title="О приложении">
+        <Preference
+            android:key="@string/about_dialog"
+            android:title="О программе" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

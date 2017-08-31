@@ -1,0 +1,179 @@
+<resources>
+
+    <!-- - - - - - - - - - - - - - - -
+       - Main  -
+       - - - - - - - - - - - - - - - -->
+
+    <string name="app_name">Odd Launcher</string>
+    <string name="container_1">Container 1</string>
+    <string name="container_2">Container 2</string>
+    <string name="container_3">Container 3</string>
+    <string name="add_app">Добавить приложение</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_apps">Поиск</string>
+    <string name="title_activity_all_apps">AllAppsActivity</string>
+    <string name="search">Поиск приложений</string>
+    <string name="positive_response">Да</string>
+    <string name="negative_response">Нет</string>
+    <string name="title_dialog">Удалить приложение</string>
+    <string name="add_left_app">Добавить левое</string>
+    <string name="add_right_app">Добавить правое</string>
+    <string name="add_theme">Обои</string>
+    <string name="settings">Настройки</string>
+
+
+    <!-- - - - - - - - - - - - - - - -
+          - Dialogs  -
+          - - - - - - - - - - - - - - - -->
+
+    <string name="about_dialog_text">Простой, необычный, удобный.
+                \n\nВерсия: 1.05
+        \nПриложение с открытым исходным кодом, доступным на github.
+        <b>\n\nПожалуйста, поддержите нас отзывом</b>
+    </string>
+    <string name="set_wallpapers">Установить обои</string>
+    <string name="wallpaper_pick">Выбрать обои</string>
+    <string name="rate_app">Оценить приложение</string>
+    <string name="about_dialog">about</string>
+    <string name="del_current_app">"Удалить это приложение?"</string>
+
+    <!-- - - - - - - - - - - - - - - -
+          - Preferences  -
+          - - - - - - - - - - - - - - - -->
+
+    <!-- Label for the color preference -->
+    <string name="pref_color_label">Shape Color</string>
+
+    <!-- Label for red color preference -->
+    <string name="pref_color_label_initial">Стандартный</string>
+    <!-- Label for blue color preference -->
+    <string name="pref_color_label_red">Красный</string>
+    <!-- Label for green color preference -->
+    <string name="pref_color_label_orange">Оранжевый</string>
+
+    <string name="pref_color_label_yellow">Желтый</string>
+
+    <string name="pref_color_label_grey">Серый</string>
+
+    <string name="pref_color_label_rhomb">Ромб(тест версия)</string>
+
+    <string name="pref_color_label_hexagon">Шестиугольник(тест версия)</string>
+
+    <!-- Key name for color preference in SharedPreferences -->
+    <string name="pref_color_key" translatable="false">color</string>
+
+    <!-- Value in SharedPreferences for red color option -->
+    <string name="pref_color_initial_value" translatable="false">стандартный</string>
+
+    <!-- Value in SharedPreferences for blue color option -->
+    <string name="pref_color_red_value" translatable="false">красный</string>
+
+    <!-- Value in SharedPreferences for green color option -->
+    <string name="pref_color_orange_value" translatable="false">оранжевый</string>
+
+    <string name="pref_color_label_yellow_value" translatable="false">желтый</string>
+
+    <string name="pref_color_label_grey_value" translatable="false">серый</string>
+
+    <string name="pref_color_label_rhomb_value" translatable="false">ромб</string>
+
+    <string name="pref_color_label_hexagon_value" translatable="false">шестиугольник</string>
+
+    <!--right-->
+    <!-- Key name for color preference in SharedPreferences -->
+    <string name="pref_color_key_right" translatable="false">color right</string>
+
+    <!---->
+    <string name="pref_left_list_text_color" translatable="false">textcolor left</string>
+
+
+    <!--anim-->
+
+    <string name="pref_anim_key" translatable="false">animation</string>
+
+    <string name="pref_anim_oval_standard" translatable="false">Слайд</string>
+    <string name="pref_anim_oval_twist" translatable="false">Твист</string>
+
+
+    <!-- Value in SharedPreferences for red color option -->
+    <string name="pref_anim_standard_value" translatable="false">слайд</string>
+
+    <!-- Value in SharedPreferences for blue color option -->
+    <string name="pref_anim_twist_value" translatable="false">твист</string>
+
+
+    <!--size-->
+
+    <!-- Label for the size preference -->
+    <string name="pref_size_label" translatable="false">Размер главных элементов</string>
+
+    <string name="pref_alpha_label" translatable="false">Прозрачность главных элементов</string>
+
+    <string name="pref_alpha_search_button_label" translatable="false">Прозрачность кнопки поиска</string>
+
+
+    <string name="pref_size_key" translatable="false">size</string>
+
+    <string name="pref_size_default" translatable="false">320</string>
+
+
+    <string name="pref_size_default_search" translatable="false">40</string>
+
+    <string name="pref_size_label_search" translatable="false">Кнопка поиска</string>
+
+    <string name="pref_size_key_search" translatable="false">size search</string>
+
+    <string name="seek_key" translatable="false">seek</string>
+
+    <string name="seekbar_size_main_elems" translatable="false">seekbar</string>
+    <string name="seekbar_alpha_main_elems" translatable="false">seekbaram</string>
+    <string name="seekbar_alpha_search_button" translatable="false">seekbaras</string>
+
+
+    <string name="seekbar_main_title" translatable="false">Пожалуйста выберите желаемое значение</string>
+
+    <!--alpha-->
+
+    <string name="pref_alpha_key" translatable="false">alpha</string>
+    <string name="pref_alpha_default" translatable="false">0.5</string>
+    <string name="pref_alpha_search_button_key" translatable="false">alphasearch</string>
+    <string name="pref_alpha_search_button_default" translatable="false">1</string>
+
+
+    <string name="pref_recycler_left_color" translatable="false">rvleft</string>
+
+    <string name="pref_recycler_right_color" translatable="false">rvright</string>
+
+    <string name="pref_search_bar_color" translatable="false">searchbar</string>
+
+    <string name="pref_search_list_color" translatable="false">searchlist</string>
+
+    <string name="pref_menu_fragment_color" translatable="false">menu</string>
+
+
+    <!--size-->
+    <string name="pref_form_label" translatable="false">Главные элементы</string>
+
+    <string name="pref_form_size" translatable="false">size</string>
+
+    <!--form-->
+
+    <string name="pref_form_key">form</string>
+
+    <string name="pref_form_oval">Овал</string>
+    <!-- Label for blue color preference -->
+    <string name="pref_form_rhomb">Ромб</string>
+    <!-- Label for green color preference -->
+    <string name="pref_form_hexagon">Шестиугольник</string>
+
+    <string name="pref_form_oval_value" translatable="false">овал</string>
+
+    <!-- Value in SharedPreferences for blue color option -->
+    <string name="pref_form_rhomb_value" translatable="false">ромб</string>
+
+    <!-- Value in SharedPreferences for green color option -->
+    <string name="pref_form_hexagon_value" translatable="false">шестиугольник</string>
+
+
+</resources>
