@@ -12,12 +12,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.brandnew.greatlauncher.activity.HomeActivity;
+import com.brandnew.greatlauncher.MyApplication;
 
 /**
  * This class handles various animations.
  */
 
-public class AnimHelper {
+public class AnimHelper    {
 
     public static void makeVisible(View... views) {
         if (views == null) return;
@@ -51,7 +52,6 @@ public class AnimHelper {
                     .setInterpolator(new AccelerateDecelerateInterpolator());
         }
     }
-
 
 
     public static void makeVisible(Context context, View... views) {
@@ -98,13 +98,14 @@ public class AnimHelper {
 
     public static void startAnim(View view, int animation) {
 //        ((Runnable) () -> {
-            Animation anim = setAnim(animation);
-            view.startAnimation(anim);
+        Animation anim = setAnim(animation);
+        view.startAnimation(anim);
 //        }).run();
     }
 
     public static Animation setAnim(int anim) {
-        Animation desirableAnimation = AnimationUtils.loadAnimation(HomeActivity.getContext(), anim);
+//        Animation desirableAnimation = AnimationUtils.loadAnimation(HomeActivity.getContext(), anim); //was ok
+        Animation desirableAnimation = AnimationUtils.loadAnimation(MyApplication.get(), anim); //06.09
         return desirableAnimation;
     }
 

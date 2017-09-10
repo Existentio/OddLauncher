@@ -64,4 +64,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppHolder> {
         return 0;
     }
 
+
+
 }

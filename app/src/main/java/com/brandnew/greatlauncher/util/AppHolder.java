@@ -66,6 +66,7 @@ public class AppHolder extends RecyclerView.ViewHolder implements View.OnClickLi
             String appName = AppManager.getListName(apps, position);
             String appCode = AppManager.getListCode(apps, position);
             db = new DatabaseHelper(context);
+
             //add selected apps to database
             if (value == ADD_TO_LEFT_LIST) {
                 db.addItemLeft(appName, appCode);

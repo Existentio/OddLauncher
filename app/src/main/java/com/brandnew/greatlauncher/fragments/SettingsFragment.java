@@ -140,7 +140,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 //            settingsHelper.setColorForViews(SettingsHelper.KEY_LEFT_LIST_TEXT);
 //            settingsHelper.setPref(SettingsHelper.PREF_LEFT_LIST_TEXT);
 //        }
-
         return super.onPreferenceTreeClick(preference);
 
     }

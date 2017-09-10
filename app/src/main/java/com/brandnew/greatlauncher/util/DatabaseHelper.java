@@ -18,7 +18,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "apps.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 1;
     private static final String DB_TABLE_LEFT = "lapps";
     private static final String DB_TABLE_RIGHT = "rapps";
     private static final String COLUMN_ID = "_id";
@@ -129,6 +129,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return list;
     }
+
+
 
     public void close() {
         if (db != null && db.isOpen()) {
