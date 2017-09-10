@@ -6,11 +6,11 @@ import android.app.Application;
  * Created by Георгий on 06.09.2017.
  */
 
-public class MyApplication extends Application {
+public class BaseApplication extends Application {
 
-    private static MyApplication instance;
+    private static BaseApplication instance;
 
-    public static MyApplication get() {
+    public static BaseApplication get() {
         return instance;
     }
 
@@ -18,7 +18,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-//        instance = ((MyApplication) getApplicationContext()); //was this
+//        instance = ((BaseApplication) getApplicationContext()); //was this
 
     }
 

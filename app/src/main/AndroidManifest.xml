@@ -3,7 +3,7 @@
     package="com.brandnew.greatlauncher">
 
     <application
-        android:name="com.brandnew.greatlauncher.MyApplication"
+        android:name="com.brandnew.greatlauncher.BaseApplication"
         android:allowBackup="true"
         android:launchMode="singleTask"
         android:icon="@mipmap/ic_launcher_new"

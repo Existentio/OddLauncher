@@ -12,7 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.brandnew.greatlauncher.activity.HomeActivity;
-import com.brandnew.greatlauncher.MyApplication;
+import com.brandnew.greatlauncher.BaseApplication;
 
 /**
  * This class handles various animations.
@@ -105,7 +105,7 @@ public class AnimHelper    {
 
     public static Animation setAnim(int anim) {
 //        Animation desirableAnimation = AnimationUtils.loadAnimation(HomeActivity.getContext(), anim); //was ok
-        Animation desirableAnimation = AnimationUtils.loadAnimation(MyApplication.get(), anim); //06.09
+        Animation desirableAnimation = AnimationUtils.loadAnimation(BaseApplication.get(), anim); //06.09
         return desirableAnimation;
     }
 
