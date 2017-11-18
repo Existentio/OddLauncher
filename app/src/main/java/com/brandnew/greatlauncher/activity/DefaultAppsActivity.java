@@ -75,7 +75,6 @@ public class DefaultAppsActivity extends AppCompatActivity implements OnSearchLi
         adapter = new AppAdapter(this, AppManager.apps);
         manager = new AppManager(this);
         manager.loadApps();
-        Collections.sort(AppManager.apps , Utils.NAME_ORDER_ASC);
         rvDefault.setAdapter(adapter);
     }
 }

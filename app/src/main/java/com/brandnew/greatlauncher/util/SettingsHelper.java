@@ -31,6 +31,7 @@ public class SettingsHelper extends View {
 
     public static String CONST_PREF;
 
+    //prefs
     public static final String PREF_LEFT_LIST = "pref_left_list";
     public static final String PREF_RIGHT_LIST = "pref_right_list";
     public static final String PREF_SEARCHBAR = "pref_searchbar";
@@ -40,7 +41,9 @@ public class SettingsHelper extends View {
     public static final String PREF_SEEKBAR_SIZE_MAIN = "pref_seekbar";
     public static final String PREF_SEEKBAR_ALPHA_MAIN = "pref_seekbar_alpha_main";
     public static final String PREF_SEEKBAR_ALPHA_SEARCH_BUTTON = "pref_seekbar_alpha_search";
+    public static final String PREF_URL = "pref_search_url";
 
+    //keys
     public static final String KEY_LEFT_LIST = "key_left_list";
     public static final String KEY_RIGHT_LIST = "key_right_list";
     public static final String KEY_SEARCHBAR = "key_searchbar";
@@ -50,6 +53,7 @@ public class SettingsHelper extends View {
     public static final String KEY_SEEKBAR_SIZE_MAIN = "key_seekbar";
     public static final String KEY_SEEKBAR_ALPHA_MAIN = "key_seekbar_alpha_main";
     public static final String KEY_SEEKBAR_ALPHA_SEARCH_BUTTON = "pref_seekbar_alpha_search";
+    public static final String KEY_URL = "key_url";
 
 
     public SettingsHelper(Context context) {

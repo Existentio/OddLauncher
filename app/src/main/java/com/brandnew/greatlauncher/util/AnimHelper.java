@@ -105,7 +105,7 @@ public class AnimHelper    {
 
     public static Animation setAnim(int anim) {
 //        Animation desirableAnimation = AnimationUtils.loadAnimation(HomeActivity.getContext(), anim); //was ok
-        Animation desirableAnimation = AnimationUtils.loadAnimation(BaseApplication.get(), anim); //06.09
+        Animation desirableAnimation = AnimationUtils.loadAnimation(BaseApplication.get(), anim);
         return desirableAnimation;
     }
 

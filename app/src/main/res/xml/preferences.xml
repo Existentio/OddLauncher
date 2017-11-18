@@ -122,6 +122,14 @@
 
     <!--</PreferenceCategory>-->
 
+    <PreferenceCategory
+        android:key="1"
+        android:title="Поиск">
+        <EditTextPreference
+            android:defaultValue="@string/pref_url_default"
+            android:key="@string/pref_search_url"
+            android:title="Адрес домашней страницы" />
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="1"

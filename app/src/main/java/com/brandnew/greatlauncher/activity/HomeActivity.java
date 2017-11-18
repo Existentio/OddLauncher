@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -27,6 +28,7 @@ import android.app.LoaderManager.LoaderCallbacks;
 
 import com.brandnew.greatlauncher.R;
 import com.brandnew.greatlauncher.fragments.CentralMenuFragment;
+import com.brandnew.greatlauncher.fragments.MenuFragment;
 import com.brandnew.greatlauncher.model.AppInfo;
 import com.brandnew.greatlauncher.util.AnimHelper;
 import com.brandnew.greatlauncher.util.AppLoader;
@@ -94,7 +96,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 //    private View newFeature;
 
-    //TODO think there, bad approach.
     public static final String mypreference = "mypref";
     static boolean pointer = false;
     Animation spreading;
@@ -113,10 +114,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         loaderManager = getLoaderManager();
         loaderManager.initLoader(LOADER_MAIN_ID, null, this).forceLoad();
     }
-
-//    public static Context getContext() {
-//        return mContext;
-//    }
 
     @Override
     protected void onDestroy() {
@@ -187,6 +184,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         rlHome.setOnTouchListener(mainElemsTouchListener);
     }
 
+
     @Override
     public void onBackPressed() {
         //do nothing because we don't want to close our launcher
@@ -207,7 +205,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     private void setupSharedPreferences() {
         // Get all of the values from shared preferences to set it up
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -217,7 +214,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         loadAlphaFromSharedPreferences(sharedPreferences);
         loadAlphaSearchButton(sharedPreferences);
 //        loadFormFromSharedPreferences(sharedPreferences);
-
+        changeUrl(sharedPreferences);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -288,14 +285,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         return ALPHA_VALUE_SEARCH;
     }
 
+    public static void setUrl(String homeUrl) {
+        CentralMenuFragment.url = homeUrl;
+    }
+
+    public static String getUrl() {
+        return CentralMenuFragment.url;
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
         initSettings();
-//        refreshBackground();
-//        AppSettings.returnHomePreferences(this);
-//        AppSettings.returnUiWithPreferences(rvLeft, rvRight, searchBar, flSearch,
-//                menu, settingsHelper, btnLeftElem, btnRightElem, btnSearch);
     }
 
 //    public void refreshBackground() {
@@ -330,6 +332,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences spSeekbarAlphaMain = getSharedPreferences(SettingsHelper.PREF_SEEKBAR_ALPHA_MAIN,
                 Context.MODE_PRIVATE);
         SharedPreferences spSeekbarAlphaSearch = getSharedPreferences(SettingsHelper.PREF_SEEKBAR_ALPHA_SEARCH_BUTTON,
+                Context.MODE_PRIVATE);
+        SharedPreferences spUrl = getSharedPreferences(SettingsHelper.PREF_URL,
                 Context.MODE_PRIVATE);
 
         if (spLeftList.contains(SettingsHelper.KEY_LEFT_LIST)) {
@@ -371,8 +375,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             setAlphaSearch(currentAlpha);
             settingsHelper.setAlphaSearchButton(btnSearch, currentAlpha);
         }
+
+        if (spUrl.contains(SettingsHelper.KEY_URL)) {
+//            CentralMenuFragment.url = (spUrl.getString(SettingsHelper.KEY_URL, ""));
+            setUrl(spUrl.getString(SettingsHelper.KEY_URL, ""));
+        }
+
+
     }
 
+
+    private void changeUrl(SharedPreferences sharedPreferences) {
+        String url = sharedPreferences.getString(getString(R.string.pref_search_url),
+                getString(R.string.pref_url_default));
+        setUrl(url);
+    }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -386,9 +403,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             loadAlphaFromSharedPreferences(sharedPreferences);
         } else if (key.equals(getString(R.string.pref_alpha_search_button_key))) {
             loadAlphaSearchButton(sharedPreferences);
+        } else if (key.equals(getString(R.string.pref_search_url))) {
+            changeUrl(sharedPreferences);
         }
 
 
+        /*else if (key.equals(getString(R.string.pref_search_url))) {
+                int minSize = Integer.parseInt(sharedPreferences.getString(getString(R.string.pref_size_key), "1.0"));
+                tv.setText(String.valueOf(minSize));
+        }*/
 
         /*else if (key.equals(getString(R.string.pref_size_key_search))) {
             loadSizeFromSharedPreferences(sharedPreferences);
@@ -594,7 +617,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     //TODO rename this later
     public static void mainElemsState(boolean pointer) {
         HomeActivity.pointer = pointer;
@@ -613,13 +635,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void callCentralMenu() {
-            new Thread(() -> {
-                fragmentManager = getFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                centralMenu = new CentralMenuFragment();
-                fragmentTransaction.add(R.id.layout_home, centralMenu, "CENTRAL_MENU");
-                fragmentTransaction.commit();
-            }).start();
+        new Thread(() -> {
+            fragmentManager = getFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            centralMenu = new CentralMenuFragment();
+            fragmentTransaction.add(R.id.layout_home, centralMenu, "CENTRAL_MENU");
+            fragmentTransaction.commit();
+        }).start();
     }
 
     public void moveBackMainElems() {

@@ -44,6 +44,7 @@ public class AppSettings extends AppCompatActivity {
                 Context.MODE_PRIVATE);
         spSeekbarAlphaSearch = context.getSharedPreferences(SettingsHelper.PREF_SEEKBAR_ALPHA_SEARCH_BUTTON,
                 Context.MODE_PRIVATE);
+
     }
 
     public static void returnUiWithPreferences(

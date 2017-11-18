@@ -31,9 +31,4 @@ public class AppLoader extends AsyncTaskLoader<Boolean> {
         return true;
     }
 
-//    @Override
-//    public List<AppInfo> loadInBackground() {
-////        return new DatabaseHelper(getContext()).getApps(list);
-//        return new AppManager(getContext()).loadApps();
-//    }
 }

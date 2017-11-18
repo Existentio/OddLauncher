@@ -1,23 +1,14 @@
 package com.brandnew.greatlauncher.widget;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.brandnew.greatlauncher.R;
 import com.brandnew.greatlauncher.model.AppInfo;
 import com.brandnew.greatlauncher.util.AppAdapter;
-import com.brandnew.greatlauncher.util.AppManager;
 import com.brandnew.greatlauncher.util.DatabaseHelper;
 import com.brandnew.greatlauncher.viewutil.DialogHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

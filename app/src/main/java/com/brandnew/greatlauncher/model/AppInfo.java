@@ -7,12 +7,12 @@ import android.graphics.drawable.Drawable;
  */
 
 public class AppInfo {
-    private CharSequence name;
+    private String name;
     private CharSequence code;
     private Drawable icon;
     private int id;
 
-    public AppInfo(CharSequence name, CharSequence code, Drawable icon, int id) {
+    public AppInfo(String name, CharSequence code, Drawable icon, int id) {
         this.name = name;
         this.code = code;
         this.icon = icon;

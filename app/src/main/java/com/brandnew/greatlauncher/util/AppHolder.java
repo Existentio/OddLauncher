@@ -42,8 +42,8 @@ public class AppHolder extends RecyclerView.ViewHolder implements View.OnClickLi
 
     public AppHolder(View itemView) {
         super(itemView);
-        name = (TextView) itemView.findViewById(R.id.app_name);
-        icon = (ImageView) itemView.findViewById(R.id.app_icon);
+        name = itemView.findViewById(R.id.app_name);
+        icon = itemView.findViewById(R.id.app_icon);
         itemView.setOnClickListener(this);
     }
 

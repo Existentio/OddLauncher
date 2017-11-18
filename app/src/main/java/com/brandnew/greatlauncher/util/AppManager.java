@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
-import com.brandnew.greatlauncher.R;
 import com.brandnew.greatlauncher.model.AppInfo;
 
 import java.util.ArrayList;
@@ -41,14 +39,31 @@ public class AppManager {
         Intent appIntent = new Intent(Intent.ACTION_MAIN, null);
         appIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> availableActivities = manager.queryIntentActivities(appIntent, 0);
+        fetchInstalledApps(availableActivities);
+    }
+
+    private void fetchInstalledApps(List<ResolveInfo> availableActivities) {
         for (ResolveInfo ri : availableActivities) {
-            CharSequence code = ri.loadLabel(manager);
-            CharSequence name = ri.activityInfo.packageName;
+            String code = ri.loadLabel(manager).toString();
+            String name = ri.activityInfo.packageName;
             Drawable icon = ri.activityInfo.loadIcon(manager);
             AppInfo app = new AppInfo(code, name, icon, 0);
             apps.add(app);
         }
+        Collections.sort(apps , Utils.NAME_ORDER_ASC);
     }
+
+//    public List<AppInfo> loadApps(List<AppInfo> apps) {
+//        if (!apps.isEmpty()) {
+//            apps.clear();
+//        }
+//        Intent appIntent = new Intent(Intent.ACTION_MAIN, null);
+//        appIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+//        List<ResolveInfo> availableActivities = manager.queryIntentActivities(appIntent, 0);
+//        //get all installed apps from device
+//        fetchInstalledApps(availableActivities);
+//        return apps;
+//    }
 
     public static ArrayList<AppInfo> returnList(ArrayList<AppInfo> list) {
         return returnedList = list;
