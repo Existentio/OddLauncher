@@ -298,6 +298,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         initSettings();
+
+        if (viewLocker()) {
+            onConstrict();
+            AnimHelper.makeGone(frameRight, frameLeft);
+            AnimHelper.makeVisibleWithAlpha(btnRightElem, btnLeftElem);
+            AnimHelper.makeVisibleWithAlpha(this, btnSearch);
+            setStateForLeftElem(false);
+            setStateForRightElem(false);
+            lockState = false;
+
+            if (getPointer()) {
+                mainElemsState(false);
+                moveBackMainElems();
+            }
+        }
     }
 
 //    public void refreshBackground() {
@@ -582,12 +597,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void onOpen() {
+    private boolean isCentralMenuVisible = false;
+
+//    private boolean isCentralMenuCalled() {
+//        return isCentralMenuVisible = true;
+//    }
+
+    public void moveApartMainElems() {
         ((Runnable) () -> {
             if ((rlHome != null) && (!getPointer())) {
                 animMainElems();
             }
         }).run();
+        isCentralMenuVisible = true;
     }
 
     public void animMainElems() {
@@ -653,7 +675,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         btnLeftElem.setClickable(true);
         btnRightElem.setClickable(true);
+        isCentralMenuVisible = false;
     }
+
 
     @Override
     public Loader onCreateLoader(int i, Bundle bundle) {
@@ -670,6 +694,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onLoaderReset(Loader loader) {
         adapterAllApps.notifyDataSetChanged();
+    }
+
+
+    static boolean lockState = false;
+
+    public static boolean viewLocker() {
+        return lockState = true;
     }
 
 }

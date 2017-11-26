@@ -1,11 +1,8 @@
 package com.brandnew.greatlauncher.widget;
 
 import android.app.Activity;
-import android.support.constraint.ConstraintLayout;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 
 import com.brandnew.greatlauncher.R;
@@ -94,7 +91,7 @@ public class MainElemsTouchListener implements TouchListener {
     @Override
     public void onLeftToRightSwipe() {
         home.setAdditionalMenuState(true);
-        home.onOpen();
+        home.moveApartMainElems();
     }
 
     @Override

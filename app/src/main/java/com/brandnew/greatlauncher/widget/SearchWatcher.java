@@ -7,10 +7,12 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.brandnew.greatlauncher.activity.HomeActivity;
 import com.brandnew.greatlauncher.model.AppInfo;
 import com.brandnew.greatlauncher.util.AnimHelper;
 import com.brandnew.greatlauncher.util.AppAdapter;
 import com.brandnew.greatlauncher.util.AppManager;
+import com.brandnew.greatlauncher.util.Utils;
 import com.brandnew.greatlauncher.util.ValueController;
 
 import java.util.ArrayList;
@@ -122,7 +124,7 @@ public class SearchWatcher implements TextWatcher {
         //setting this value for correct search processing
         ValueController.setPointer(specificValue);
         query = query.toString().toLowerCase();
-        final ArrayList<AppInfo> filteredList = new ArrayList<>(); //was non-final
+        final ArrayList<AppInfo> filteredList = new ArrayList<>();
         rvSearch.setLayoutManager(layoutManager);
         adapter = new AppAdapter(activity, filteredList);
         rvSearch.setAdapter(adapter);
@@ -141,7 +143,9 @@ public class SearchWatcher implements TextWatcher {
             AnimHelper.makeGone(views);
         } else if (flSearch.isShown() && query.equals("")) {
             AnimHelper.makeGone(searchViews);
-        }
+        } /*else if (flSearch.isShown() && !(activity instanceof HomeActivity)) {
+            AnimHelper.makeGone(searchViews);
+        }*/
     }
 
 }

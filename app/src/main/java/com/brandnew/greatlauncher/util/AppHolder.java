@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brandnew.greatlauncher.R;
+import com.brandnew.greatlauncher.activity.HomeActivity;
 import com.brandnew.greatlauncher.model.AppInfo;
 import com.brandnew.greatlauncher.viewutil.DialogHelper;
 
@@ -52,8 +53,8 @@ public class AppHolder extends RecyclerView.ViewHolder implements View.OnClickLi
         result = ValueController.getPointer();
         position = getAdapterPosition();
         context = v.getContext();
-        Intent intent;
 
+        Intent intent;
         if (result.equals(OPEN_APPS_LEFT)) {
             intent = manager.getLaunchIntentForPackage(AppManager.getListCode(appsLeft, position));
             context.startActivity(intent);
@@ -67,7 +68,7 @@ public class AppHolder extends RecyclerView.ViewHolder implements View.OnClickLi
             String appCode = AppManager.getListCode(apps, position);
             db = new DatabaseHelper(context);
 
-            //add selected apps to database
+            //add selected apps to left and right database tables
             if (value == ADD_TO_LEFT_LIST) {
                 db.addItemLeft(appName, appCode);
             }
@@ -77,6 +78,7 @@ public class AppHolder extends RecyclerView.ViewHolder implements View.OnClickLi
         } else if (result.equals(OPEN_SEARCH_APPS)) {
             intent = manager.getLaunchIntentForPackage(AppManager.getListCode(appsForSearch, position));
             context.startActivity(intent);
+            HomeActivity.viewLocker();
         } else if (result.equals(OPEN_ALL_APPS)) {
             intent = manager.getLaunchIntentForPackage(AppManager.getListCode(apps, position));
             context.startActivity(intent);
