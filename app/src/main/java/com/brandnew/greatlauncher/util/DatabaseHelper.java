@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 
 import com.brandnew.greatlauncher.model.AppInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,14 +42,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
     private Context context;
-    private List<AppInfo> arrayListLeft = AppManager.appsLeft;
-    private List<AppInfo> arrayListRight = AppManager.appsRight;
+
+    AppManager appManager;
+//    private List<AppInfo> arrayListLeft = AppManager.appsLeft;
+//    private List<AppInfo> arrayListRight = AppManager.appsRight;
+//
+    private List<AppInfo> arrayListLeft;
+    private List<AppInfo> arrayListRight;
+
+
     private Cursor cursor;
+
+
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         db = getWritableDatabase();
         this.context = context;
+        appManager = new AppManager(context);
+        arrayListLeft = appManager.listProvider("left_table");
+        arrayListRight = appManager.listProvider("right_table");
+
     }
 
     @Override
@@ -72,25 +84,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void addItemLeft(String name, String code) {
+    public void addRecLeftTable(String name, String code) {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_NAME_LEFT, name);
         cv.put(COLUMN_CODE_LEFT, code);
         db.insert(DB_TABLE_LEFT, null, cv);
     }
 
-    public void addItemRight(String name, String code) {
+    public void addRecRightTable(String name, String code) {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_NAME_RIGHT, name);
         cv.put(COLUMN_CODE_RIGHT, code);
         db.insert(DB_TABLE_RIGHT, null, cv);
     }
 
-    public boolean delRecLeft(long id) {
+    public boolean delRecLeftTable(long id) {
         return db.delete(DB_TABLE_LEFT, COLUMN_ID + "=" + id, null) > 0;
     }
 
-    public boolean delRecRight(long id) {
+    public boolean delRecRightTable(long id) {
         return db.delete(DB_TABLE_RIGHT, COLUMN_ID + "=" + id, null) > 0;
     }
 

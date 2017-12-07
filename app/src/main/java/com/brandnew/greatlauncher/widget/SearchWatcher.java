@@ -7,12 +7,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.brandnew.greatlauncher.activity.HomeActivity;
+import com.brandnew.greatlauncher.BaseApplication;
 import com.brandnew.greatlauncher.model.AppInfo;
 import com.brandnew.greatlauncher.util.AnimHelper;
 import com.brandnew.greatlauncher.util.AppAdapter;
 import com.brandnew.greatlauncher.util.AppManager;
-import com.brandnew.greatlauncher.util.Utils;
 import com.brandnew.greatlauncher.util.ValueController;
 
 import java.util.ArrayList;
@@ -129,7 +128,8 @@ public class SearchWatcher implements TextWatcher {
         adapter = new AppAdapter(activity, filteredList);
         rvSearch.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        AppManager.returnList(filteredList);
+//        AppManager.returnRefreshedList(filteredList);
+        new AppManager(BaseApplication.get()).returnRefreshedList(filteredList);
 
         for (int i = 0; i < list.size(); i++) {
             final String text = list.get(i).getName().toString().toLowerCase();

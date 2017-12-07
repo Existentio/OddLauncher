@@ -9,16 +9,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.brandnew.greatlauncher.R;
-import com.brandnew.greatlauncher.model.AppInfo;
 import com.brandnew.greatlauncher.util.AppAdapter;
 import com.brandnew.greatlauncher.util.AppManager;
 import com.brandnew.greatlauncher.util.OnSearchListener;
-import com.brandnew.greatlauncher.util.Utils;
-import com.brandnew.greatlauncher.widget.SearchWatcher;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 public class DefaultAppsActivity extends AppCompatActivity implements OnSearchListener {
 
@@ -72,7 +65,7 @@ public class DefaultAppsActivity extends AppCompatActivity implements OnSearchLi
 
     @Override
     public void loadSearchApps() {
-        adapter = new AppAdapter(this, AppManager.apps);
+        adapter = new AppAdapter(this, new AppManager(this).listProvider("all_apps"));
         manager = new AppManager(this);
         manager.loadApps();
         rvDefault.setAdapter(adapter);

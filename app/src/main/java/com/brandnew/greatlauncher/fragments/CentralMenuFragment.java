@@ -21,7 +21,6 @@ import static com.brandnew.greatlauncher.util.ValueController.OPEN_ALL_APPS;
 
 public class CentralMenuFragment extends Fragment implements View.OnClickListener {
     private ImageButton btnOpenAllApps, btnOpenBrowser, btnOpenCall, btnOpenPhoneSettings;
-//    private String url = "http://google.com";
     public static String url;
 
     @Override

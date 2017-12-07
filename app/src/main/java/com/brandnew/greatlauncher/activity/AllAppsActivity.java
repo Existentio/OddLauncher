@@ -17,7 +17,6 @@ import com.brandnew.greatlauncher.util.AppManager;
 import com.brandnew.greatlauncher.util.Utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AllAppsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Boolean> {
@@ -61,7 +60,7 @@ public class AllAppsActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public void onLoadFinished(Loader<Boolean> loader, Boolean b) {
 //        adapter = new AppAdapter(this, manager.loadApps(apps));
-        adapter = new AppAdapter(this, AppManager.apps);
+        adapter = new AppAdapter(this, new AppManager(this).listProvider("all_apps"));
         rvAllApps.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

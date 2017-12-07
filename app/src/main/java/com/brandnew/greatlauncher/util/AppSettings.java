@@ -3,7 +3,6 @@ package com.brandnew.greatlauncher.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -74,8 +73,8 @@ public class AppSettings extends AppCompatActivity {
 
         if (spSeekbar.contains(SettingsHelper.KEY_SEEKBAR_SIZE_MAIN)) {
             int result = (spSeekbar.getInt(SettingsHelper.KEY_SEEKBAR_SIZE_MAIN, 0));
-            settingsHelper.setSizeMainButtons(btnLeftElem, result);
-            settingsHelper.setSizeMainButtons(btnRightElem, result);
+            settingsHelper.setSizeMainElems(btnLeftElem, result);
+            settingsHelper.setSizeMainElems(btnRightElem, result);
         }
 
         if (spSeekbarAlphaMain.contains(SettingsHelper.KEY_SEEKBAR_ALPHA_MAIN)) {
@@ -94,9 +93,9 @@ public class AppSettings extends AppCompatActivity {
 
     public static void loadColorFromPreferences(SharedPreferences sharedPreferences, Context context,
                                                 ImageButton btnLeftElem, ImageButton btnRightElem, SettingsHelper settingsHelper) {
-        settingsHelper.setColorLeft(sharedPreferences.getString(context.getString(R.string.pref_color_key),
+        settingsHelper.chooseFormLeftElem(sharedPreferences.getString(context.getString(R.string.pref_color_key),
                 context.getString(R.string.pref_color_initial_value)), btnLeftElem);
-        settingsHelper.setColorRight(sharedPreferences.getString(context.getString(R.string.pref_color_key_right),
+        settingsHelper.chooseFormRightElem(sharedPreferences.getString(context.getString(R.string.pref_color_key_right),
                 context.getString(R.string.pref_color_initial_value)), btnRightElem);
     }
 
@@ -109,8 +108,8 @@ public class AppSettings extends AppCompatActivity {
 //
 //        int newSize = Integer.parseInt(sharedPreferences.getString(getString(R.string.seekbar_size_main_elems),
 //                getString(R.string.pref_size_default)));
-        settingsHelper.setSizeMainButtons(btnLeftElem, minSize);
-        settingsHelper.setSizeMainButtons(btnRightElem, minSize);
+        settingsHelper.setSizeMainElems(btnLeftElem, minSize);
+        settingsHelper.setSizeMainElems(btnRightElem, minSize);
 //        settingsHelperSearch.setSizeOtherViews(btnSearch, minSizeSearch);
     }
 

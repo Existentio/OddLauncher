@@ -18,23 +18,33 @@ import java.util.List;
  */
 
 public class AppManager {
-    public static List<AppInfo> apps = new ArrayList<>();
-    public static List<AppInfo> appsLeft = new CustomArrayList<>();
-    public static List<AppInfo> appsRight = new CustomArrayList<>();
-    public static List<AppInfo> appsAll = new ArrayList<>();
-    public static List<AppInfo> appsSearch = new ArrayList<>();
-    public static ArrayList<AppInfo> returnedList = new ArrayList<>();
-    public static PackageManager manager;
-    public Context context;
+    private static  List<AppInfo> allApps = new ArrayList<>();
+    private static List<AppInfo> leftTableApps = new CustomArrayList<>();
+    private static List<AppInfo> rightTableApps = new CustomArrayList<>();
+    private static List<AppInfo> appsSearch = new ArrayList<>();
+    private static List<AppInfo> returnedList = new ArrayList<>();
+
+    public PackageManager manager;
+
+    //06.12
+    private List<AppInfo> mLeftTableApps = leftTableApps;
+    private List<AppInfo> mRightTableApps = rightTableApps;
+    private List<AppInfo> mDefaultApps = allApps;
+    private List<AppInfo> mSearchApps = returnedList;
 
     public AppManager(Context context) {
-        this.context = context;
         this.manager = context.getPackageManager();
     }
 
+//    public AppManager(Context context, List<AppInfo> allApps) {
+//        super();
+//    }
+
+
+
     public void loadApps() {
-        if (!apps.isEmpty()) {
-            apps.clear();
+        if (!allApps.isEmpty()) {
+            allApps.clear();
         }
         Intent appIntent = new Intent(Intent.ACTION_MAIN, null);
         appIntent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -48,42 +58,45 @@ public class AppManager {
             String name = ri.activityInfo.packageName;
             Drawable icon = ri.activityInfo.loadIcon(manager);
             AppInfo app = new AppInfo(code, name, icon, 0);
-            apps.add(app);
+            allApps.add(app);
         }
-        Collections.sort(apps , Utils.NAME_ORDER_ASC);
+        Collections.sort(allApps, Utils.NAME_ORDER_ASC);
     }
 
-//    public List<AppInfo> loadApps(List<AppInfo> apps) {
-//        if (!apps.isEmpty()) {
-//            apps.clear();
-//        }
-//        Intent appIntent = new Intent(Intent.ACTION_MAIN, null);
-//        appIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-//        List<ResolveInfo> availableActivities = manager.queryIntentActivities(appIntent, 0);
-//        //get all installed apps from device
-//        fetchInstalledApps(availableActivities);
-//        return apps;
-//    }
 
-    public static ArrayList<AppInfo> returnList(ArrayList<AppInfo> list) {
+    /**
+     * Method returns filtered apps in search bar
+     **/
+    public  List<AppInfo> returnRefreshedList(List<AppInfo> list) {
         return returnedList = list;
     }
 
     @NonNull
-    public static String getListName(List<AppInfo> list, int position) {
+    public  String getListName(List<AppInfo> list, int position) {
         return list.get(position).getName().toString();
     }
 
     @NonNull
-    public static String getListCode(List<AppInfo> list, int position) {
+    public  String getListCode(List<AppInfo> list, int position) {
         return list.get(position).getCode().toString();
     }
 
     @NonNull
-    public static int getListId(List<AppInfo> list, int position) {
+    public  static int getListId(List<AppInfo> list, int position) {
         return list.get(position).getId();
     }
 
-
-
+    public List<AppInfo> listProvider(String key) {
+        switch (key) {
+            case "left_table":
+                return mLeftTableApps;
+            case "right_table":
+                return mRightTableApps;
+            case "all_apps":
+                return mDefaultApps;
+            case "search_apps":
+                return mSearchApps;
+        }
+        return mDefaultApps;
+    }
 }

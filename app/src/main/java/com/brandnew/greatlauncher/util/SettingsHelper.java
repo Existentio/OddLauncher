@@ -60,7 +60,7 @@ public class SettingsHelper extends View {
         super(context);
     }
 
-    public void setColorLeft(String newColorKey, ImageButton imageButton) {
+    public void chooseFormLeftElem(String newColorKey, ImageButton imageButton) {
         normal = (ContextCompat.getDrawable(getContext(), R.drawable.left_oval_selector));
         red = (ContextCompat.getDrawable(getContext(), R.drawable.left_2_red));
 
@@ -81,7 +81,7 @@ public class SettingsHelper extends View {
         }
     }
 
-    public void setColorRight(String newColorKey, ImageButton imageButton) {
+    public void chooseFormRightElem(String newColorKey, ImageButton imageButton) {
         normal = (ContextCompat.getDrawable(getContext(), R.drawable.right_oval_selector));
         red = (ContextCompat.getDrawable(getContext(), R.drawable.right_2_red));
 
@@ -102,7 +102,7 @@ public class SettingsHelper extends View {
         }
     }
 
-    public void setSizeMainButtons(ImageButton imageButton, int scale) {
+    public void setSizeMainElems(ImageButton imageButton, int scale) {
         ViewGroup.LayoutParams params = imageButton.getLayoutParams();
         params.width = (int) (scale / 2.4);
         params.height = scale;
@@ -125,29 +125,6 @@ public class SettingsHelper extends View {
         btn.setAlpha(alpha / 10);
     }
 
-
-    //later
-    public void setForm(String newFormKey, ImageButton imageButtonLeft, ImageButton imageButtonRight) {
-        ovalLeft = (ContextCompat.getDrawable(getContext(), R.drawable.left_oval_selector));
-        ovalRight = (ContextCompat.getDrawable(getContext(), R.drawable.right_oval_selector));
-
-        rhombLeft = (ContextCompat.getDrawable(getContext(), R.drawable.left_rhomb));
-        rhombRight = (ContextCompat.getDrawable(getContext(), R.drawable.right_rhomb));
-
-        if (newFormKey.equals(getContext().getString(R.string.pref_form_oval_value))) {
-            imageButtonLeft.setBackground(ovalLeft);
-            imageButtonRight.setBackground(ovalRight);
-        }
-        if (newFormKey.equals(getContext().getString(R.string.pref_form_hexagon_value))) {
-            imageButtonLeft.setBackground(rhombLeft);
-            imageButtonRight.setBackground(rhombRight);
-        }
-//        if (newFormKey.equals(getContext().getString(R.string.pref_color_orange_value))) {
-//            imageButton.setBackground(rhombLeft);
-//        }
-
-    }
-
     public void setColorForViews(final String key) {
         ColorPickerDialogBuilder
                 .with(getContext())
@@ -155,35 +132,30 @@ public class SettingsHelper extends View {
                 .initialColor(R.color.colorPrimary)
                 .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                 .density(12)
-                .setOnColorSelectedListener(new OnColorSelectedListener() {
-                    @Override
-                    public void onColorSelected(int selectedColor) {
-                    }
+                .setOnColorSelectedListener(selectedColor -> {
                 })
-                .setPositiveButton("Ок", new ColorPickerClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                        setColorValue(selectedColor);
-                        putIntValueInSharedPreference(getPref(), getContext(), key, getColorValue());
-                    }
+
+                .setPositiveButton("Ок", (dialog, selectedColor, allColors) -> {
+                    setColorValue(selectedColor);
+                    putIntValueInSharedPreference(getPref(), getContext(), key, getColorValue());
                 })
-                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+
+                .setNegativeButton("Отмена", (dialog, which) -> {
                 })
+
                 .build()
                 .show();
     }
 
     public void setSeekbarEndpointValue(final String key, String title, int maxValue) {
+        final int incrementValue = 1;
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(getContext());
         final SeekBar seek = new SeekBar(getContext());
+
         seek.setMax(maxValue);
-        seek.setKeyProgressIncrement(1);
+        seek.setKeyProgressIncrement(incrementValue);
         popDialog.setTitle(title);
         popDialog.setView(seek);
-
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -202,11 +174,8 @@ public class SettingsHelper extends View {
             }
         });
         popDialog.setPositiveButton("OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        putIntValueInSharedPreference(getPref(), getContext(), key, getSizeValue());
-                    }
-                });
+                (dialog, which) -> putIntValueInSharedPreference(getPref(), getContext(), key, getSizeValue())
+        );
         popDialog.create();
         popDialog.show();
     }
@@ -220,8 +189,7 @@ public class SettingsHelper extends View {
         return SIZE_VALUE;
     }
 
-
-    public void setColorValue(int selectedColor) { //was static
+    public void setColorValue(int selectedColor) {
         COLOR_VALUE = selectedColor;
     }
 
@@ -245,19 +213,5 @@ public class SettingsHelper extends View {
         return CONST_PREF;
     }
 
-
-//    later
-
-
-    public void setAnim(String newColorKey, RecyclerView recyclerView) {
-        normal = (ContextCompat.getDrawable(getContext(), R.drawable.left_oval_selector));
-        other = (ContextCompat.getDrawable(getContext(), R.drawable.right_oval_selector));
-
-        if (newColorKey.equals(getContext().getString(R.string.pref_anim_standard_value))) {
-//            recyclerView.set
-        } else if (newColorKey.equals(getContext().getString(R.string.pref_anim_twist_value))) {
-        }
-
-    }
 
 }

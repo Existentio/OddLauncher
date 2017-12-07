@@ -23,17 +23,15 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.app.LoaderManager.LoaderCallbacks;
 
+import com.brandnew.greatlauncher.BaseApplication;
 import com.brandnew.greatlauncher.R;
 import com.brandnew.greatlauncher.fragments.CentralMenuFragment;
-import com.brandnew.greatlauncher.fragments.MenuFragment;
 import com.brandnew.greatlauncher.model.AppInfo;
 import com.brandnew.greatlauncher.util.AnimHelper;
 import com.brandnew.greatlauncher.util.AppLoader;
 import com.brandnew.greatlauncher.util.AppManager;
-import com.brandnew.greatlauncher.util.AppSettings;
 import com.brandnew.greatlauncher.util.AppearanceAnimator;
 import com.brandnew.greatlauncher.util.DatabaseHelper;
 import com.brandnew.greatlauncher.util.AppAdapter;
@@ -63,21 +61,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private RelativeLayout rlHome;
     private View centralView;
-    private AppManager manager;
+    //    private AppManager manager;
     private DatabaseHelper db;
     private LoaderManager loaderManager;
     private View menu;
     private RecyclerView rvRight, rvLeft;
     private FrameLayout flSearch;
 
-    private List<AppInfo> arrayListLeft = AppManager.appsLeft;
-    private List<AppInfo> arrayListRight = AppManager.appsRight;
-    private List<AppInfo> allApps = AppManager.apps; //was .apps
+
+    private AppManager manager = new AppManager(BaseApplication.get());
+    private List<AppInfo> arrayListLeft = manager.listProvider("left_table");
+    private List<AppInfo> arrayListRight = manager.listProvider("right_table");
+    private List<AppInfo> allApps = manager.listProvider("all_apps"); //was .apps
 
     private AppAdapter adapterLeft = new AppAdapter(this, arrayListLeft);  //was ok
     private AppAdapter adapterRight = new AppAdapter(this, arrayListRight);
-    private TextView leftTextView;
-
 
     private AppAdapter adapterAllApps;
     private MainElemsTouchListener mainElemsTouchListener;
@@ -113,6 +111,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         onSearch();
         loaderManager = getLoaderManager();
         loaderManager.initLoader(LOADER_MAIN_ID, null, this).forceLoad();
+
     }
 
     @Override
@@ -232,9 +231,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 //    }
 
     private void loadColorFromPreferences(SharedPreferences sharedPreferences) {
-        settingsHelper.setColorLeft(sharedPreferences.getString(getString(R.string.pref_color_key),
+        settingsHelper.chooseFormLeftElem(sharedPreferences.getString(getString(R.string.pref_color_key),
                 getString(R.string.pref_color_initial_value)), btnLeftElem);
-        settingsHelper.setColorRight(sharedPreferences.getString(getString(R.string.pref_color_key_right),
+        settingsHelper.chooseFormRightElem(sharedPreferences.getString(getString(R.string.pref_color_key_right),
                 getString(R.string.pref_color_initial_value)), btnRightElem);
     }
 
@@ -247,8 +246,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 //        int newSize = Integer.parseInt(sharedPreferences.getString(getString(R.string.seekbar_size_main_elems),
 //                getString(R.string.pref_size_default)));
 
-        settingsHelper.setSizeMainButtons(btnLeftElem, minSize);
-        settingsHelper.setSizeMainButtons(btnRightElem, minSize);
+        settingsHelper.setSizeMainElems(btnLeftElem, minSize);
+        settingsHelper.setSizeMainElems(btnRightElem, minSize);
 //        settingsHelperSearch.setSizeOtherViews(btnSearch, minSizeSearch);
     }
 
@@ -313,23 +312,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 moveBackMainElems();
             }
         }
-    }
 
-//    public void refreshBackground() {
-//        if (frameLeft.isShown())
-//            AnimHelper.makeGone(frameLeft);
-//        if (frameRight.isShown())
-//            AnimHelper.makeGone(frameRight);
-//        if (!btnLeftElem.isShown())
-//            AnimHelper.makeVisibleWithAlpha(btnLeftElem);
-//        if (!btnRightElem.isShown())
-//            AnimHelper.makeVisibleWithAlpha(btnRightElem);
-//        if (!btnSearch.isShown())
-//            AnimHelper.makeVisibleWithAlpha(this, btnSearch);
-//        if (menu.isShown())
-//            AnimHelper.makeGone(menu);
-//
-//    }
+        Log.d("appsLeft", String.valueOf(arrayListLeft.size()));
+        Log.d("appsRight", String.valueOf(arrayListLeft.size()));
+        Log.d("allApps", String.valueOf(allApps.size()));
+
+    }
 
     private void initSettings() {
         SharedPreferences spLeftList = getSharedPreferences(SettingsHelper.PREF_LEFT_LIST,
@@ -373,8 +361,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         if (spSeekbar.contains(SettingsHelper.KEY_SEEKBAR_SIZE_MAIN)) {
             int result = (spSeekbar.getInt(SettingsHelper.KEY_SEEKBAR_SIZE_MAIN, 0));
-            settingsHelper.setSizeMainButtons(btnLeftElem, result);
-            settingsHelper.setSizeMainButtons(btnRightElem, result);
+            settingsHelper.setSizeMainElems(btnLeftElem, result);
+            settingsHelper.setSizeMainElems(btnRightElem, result);
         }
 
         if (spSeekbarAlphaMain.contains(SettingsHelper.KEY_SEEKBAR_ALPHA_MAIN)) {
@@ -534,15 +522,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void refresh() {
-        Intent intent = getIntent();
-        overridePendingTransition(0, 0);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(intent);
-    }
-
 
     @Override
     public void onSearch() {
@@ -570,6 +549,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 //        manager = new AppManager(this);
 //        manager.loadApps();
 //        rvSearch.setAdapter(adapterAllApps);
+
+        //temporally do nothing
     }
 
     @Override

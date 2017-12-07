@@ -18,7 +18,7 @@ import com.brandnew.greatlauncher.BaseApplication;
  * This class handles various animations.
  */
 
-public class AnimHelper    {
+public class AnimHelper {
 
     public static void makeVisible(View... views) {
         if (views == null) return;
@@ -70,12 +70,7 @@ public class AnimHelper    {
                     .alpha(0)
                     .setDuration(200)
                     .setInterpolator(new AccelerateDecelerateInterpolator())
-                    .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.setVisibility(View.INVISIBLE);
-                        }
-                    });
+                    .withEndAction(() -> view.setVisibility(View.INVISIBLE));
         }
     }
 
@@ -86,12 +81,7 @@ public class AnimHelper    {
                     .alpha(0)
                     .setDuration(200)
                     .setInterpolator(new AccelerateDecelerateInterpolator())
-                    .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.setVisibility(View.GONE);
-                        }
-                    });
+                    .withEndAction(()-> view.setVisibility(View.GONE));
         }
     }
 
@@ -104,7 +94,6 @@ public class AnimHelper    {
     }
 
     public static Animation setAnim(int anim) {
-//        Animation desirableAnimation = AnimationUtils.loadAnimation(HomeActivity.getContext(), anim); //was ok
         Animation desirableAnimation = AnimationUtils.loadAnimation(BaseApplication.get(), anim);
         return desirableAnimation;
     }
