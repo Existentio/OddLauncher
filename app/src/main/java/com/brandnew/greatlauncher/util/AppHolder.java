@@ -27,33 +27,13 @@ import static com.brandnew.greatlauncher.util.ValueController.*;
 public class AppHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     protected TextView name;
     protected ImageView icon;
-//    protected PackageManager manager = AppManager.manager;
-
-    //06.12
-
-    //    protected PackageManager manager = AppManager.manager;
     protected PackageManager manager;
-
-
     protected int value = ValueController.chooseDatabaseContainer();
-    //    protected List<AppInfo> apps =
     protected List<AppInfo> apps = new ArrayList<>();
-
-
-//    protected List<AppInfo> appsRight = AppManager.appsRight;
-//    protected List<AppInfo> appsLeft = AppManager.appsLeft;
-//    protected ArrayList<AppInfo> appsForSearch = AppManager.returnedList;
-
-
-    AppManager appManager;
-
-
-    //    protected List<AppInfo> apps;
+    protected AppManager appManager;
     protected List<AppInfo> appsRight;
     protected List<AppInfo> appsLeft;
     protected List<AppInfo> appsForSearch;
-
-
     protected String result;
     protected int position;
     protected Context context;
@@ -71,7 +51,6 @@ public class AppHolder extends RecyclerView.ViewHolder implements View.OnClickLi
         itemView.setOnClickListener(this);
 
         manager = appManager.manager;
-//        appManager.setAllApps(apps);
         apps = appManager.listProvider("all_apps");
         appsRight = appManager.listProvider("right_table");
         appsLeft = appManager.listProvider("left_table");
@@ -83,11 +62,6 @@ public class AppHolder extends RecyclerView.ViewHolder implements View.OnClickLi
         result = ValueController.getPointer();
         position = getAdapterPosition();
         context = v.getContext();
-//        AppManager appManager =  new AppManager(context);
-
-
-//        apps = appManager.mApps;
-
 
         Intent intent;
         if (result.equals(OPEN_APPS_LEFT)) {
@@ -98,9 +72,7 @@ public class AppHolder extends RecyclerView.ViewHolder implements View.OnClickLi
             context.startActivity(intent);
         } else if (result.equals(ADD_APPS_LEFT) || result.equals(ADD_APPS_RIGHT)
                 || result.equals(OPEN_DEFAULT_APPS)) {
-//            String appName = AppManager.getListName(apps, position);
             icon.setImageResource(R.drawable.ic_app_added);
-//            String appCode = AppManager.getListCode(apps, position);
             String appName = appManager.getListName(apps, position);
             String appCode = appManager.getListCode(apps, position);
 

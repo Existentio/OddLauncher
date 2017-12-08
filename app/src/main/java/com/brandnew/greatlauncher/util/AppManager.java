@@ -18,15 +18,14 @@ import java.util.List;
  */
 
 public class AppManager {
-    private static  List<AppInfo> allApps = new ArrayList<>();
-    private static List<AppInfo> leftTableApps = new CustomArrayList<>();
-    private static List<AppInfo> rightTableApps = new CustomArrayList<>();
-    private static List<AppInfo> appsSearch = new ArrayList<>();
-    private static List<AppInfo> returnedList = new ArrayList<>();
 
     public PackageManager manager;
 
-    //06.12
+    private static List<AppInfo> allApps = new ArrayList<>();
+    private static List<AppInfo> leftTableApps = new CustomArrayList<>();
+    private static List<AppInfo> rightTableApps = new CustomArrayList<>();
+    private static List<AppInfo> returnedList = new ArrayList<>();
+
     private List<AppInfo> mLeftTableApps = leftTableApps;
     private List<AppInfo> mRightTableApps = rightTableApps;
     private List<AppInfo> mDefaultApps = allApps;
@@ -35,12 +34,6 @@ public class AppManager {
     public AppManager(Context context) {
         this.manager = context.getPackageManager();
     }
-
-//    public AppManager(Context context, List<AppInfo> allApps) {
-//        super();
-//    }
-
-
 
     public void loadApps() {
         if (!allApps.isEmpty()) {
@@ -63,29 +56,6 @@ public class AppManager {
         Collections.sort(allApps, Utils.NAME_ORDER_ASC);
     }
 
-
-    /**
-     * Method returns filtered apps in search bar
-     **/
-    public  List<AppInfo> returnRefreshedList(List<AppInfo> list) {
-        return returnedList = list;
-    }
-
-    @NonNull
-    public  String getListName(List<AppInfo> list, int position) {
-        return list.get(position).getName().toString();
-    }
-
-    @NonNull
-    public  String getListCode(List<AppInfo> list, int position) {
-        return list.get(position).getCode().toString();
-    }
-
-    @NonNull
-    public  static int getListId(List<AppInfo> list, int position) {
-        return list.get(position).getId();
-    }
-
     public List<AppInfo> listProvider(String key) {
         switch (key) {
             case "left_table":
@@ -99,4 +69,28 @@ public class AppManager {
         }
         return mDefaultApps;
     }
+
+    /**
+     * Method returns filtered apps in search bar
+     **/
+    public List<AppInfo> returnRefreshedList(List<AppInfo> list) {
+        return returnedList = list;
+    }
+
+    @NonNull
+    public String getListName(List<AppInfo> list, int position) {
+        return list.get(position).getName().toString();
+    }
+
+    @NonNull
+    public String getListCode(List<AppInfo> list, int position) {
+        return list.get(position).getCode().toString();
+    }
+
+    @NonNull
+    public static int getListId(List<AppInfo> list, int position) {
+        return list.get(position).getId();
+    }
+
+
 }

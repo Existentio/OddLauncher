@@ -31,7 +31,7 @@ public class SettingsHelper extends View {
 
     public static String CONST_PREF;
 
-    //prefs
+    //values
     public static final String PREF_LEFT_LIST = "pref_left_list";
     public static final String PREF_RIGHT_LIST = "pref_right_list";
     public static final String PREF_SEARCHBAR = "pref_searchbar";
@@ -134,26 +134,22 @@ public class SettingsHelper extends View {
                 .density(12)
                 .setOnColorSelectedListener(selectedColor -> {
                 })
-
                 .setPositiveButton("Ок", (dialog, selectedColor, allColors) -> {
                     setColorValue(selectedColor);
                     putIntValueInSharedPreference(getPref(), getContext(), key, getColorValue());
                 })
-
                 .setNegativeButton("Отмена", (dialog, which) -> {
                 })
-
                 .build()
                 .show();
     }
 
     public void setSeekbarEndpointValue(final String key, String title, int maxValue) {
-        final int incrementValue = 1;
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(getContext());
         final SeekBar seek = new SeekBar(getContext());
 
         seek.setMax(maxValue);
-        seek.setKeyProgressIncrement(incrementValue);
+        seek.setKeyProgressIncrement(1);
         popDialog.setTitle(title);
         popDialog.setView(seek);
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -211,6 +207,10 @@ public class SettingsHelper extends View {
 
     public String getPref() {
         return CONST_PREF;
+    }
+
+    public void setBackgroundColor(View view, int color) {
+        view.setBackgroundColor(color);
     }
 
 

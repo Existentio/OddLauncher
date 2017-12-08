@@ -32,6 +32,7 @@ import com.brandnew.greatlauncher.model.AppInfo;
 import com.brandnew.greatlauncher.util.AnimHelper;
 import com.brandnew.greatlauncher.util.AppLoader;
 import com.brandnew.greatlauncher.util.AppManager;
+import com.brandnew.greatlauncher.util.AppSettings;
 import com.brandnew.greatlauncher.util.AppearanceAnimator;
 import com.brandnew.greatlauncher.util.DatabaseHelper;
 import com.brandnew.greatlauncher.util.AppAdapter;
@@ -44,7 +45,9 @@ import com.brandnew.greatlauncher.widget.RecyclerItemSwiper;
 import com.brandnew.greatlauncher.widget.SearchWatcher;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.*;
 import static com.brandnew.greatlauncher.util.ValueController.*;
@@ -68,7 +71,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView rvRight, rvLeft;
     private FrameLayout flSearch;
 
-
     private AppManager manager = new AppManager(BaseApplication.get());
     private List<AppInfo> arrayListLeft = manager.listProvider("left_table");
     private List<AppInfo> arrayListRight = manager.listProvider("right_table");
@@ -80,7 +82,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private AppAdapter adapterAllApps;
     private MainElemsTouchListener mainElemsTouchListener;
 
-    private RecyclerView.LayoutManager linearLayoutManager3;
+    private RecyclerView.LayoutManager managerSearch;
     private SettingsHelper settingsHelper;
     private SettingsHelper settingsHelperSearch;
 
@@ -102,6 +104,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
+
+    private Map<String, View> homeViews = new HashMap<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,14 +118,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         loaderManager = getLoaderManager();
         loaderManager.initLoader(LOADER_MAIN_ID, null, this).forceLoad();
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        db.close();
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .unregisterOnSharedPreferenceChangeListener(this);
     }
 
     public void initUI() {
@@ -156,15 +154,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         btnLeftElem.setOnClickListener(this);
         btnRightElem = (ImageButton) findViewById(R.id.right);
         btnRightElem.setOnClickListener(this);
-        LinearLayoutManager linearLayoutManager =
+        LinearLayoutManager managerRight =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        LinearLayoutManager linearLayoutManager2 =
+        LinearLayoutManager managerLeft =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        linearLayoutManager3 =
+        managerSearch =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rvRight.setLayoutManager(linearLayoutManager);
-        rvLeft.setLayoutManager(linearLayoutManager2);
-        rvSearch.setLayoutManager(linearLayoutManager3);
+        rvRight.setLayoutManager(managerRight);
+        rvLeft.setLayoutManager(managerLeft);
+        rvSearch.setLayoutManager(managerSearch);
 
         settingsHelper = new SettingsHelper(this);
         settingsHelperSearch = new SettingsHelper(this);
@@ -212,23 +210,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         loadSizeFromSharedPreferences(sharedPreferences);
         loadAlphaFromSharedPreferences(sharedPreferences);
         loadAlphaSearchButton(sharedPreferences);
-//        loadFormFromSharedPreferences(sharedPreferences);
         changeUrl(sharedPreferences);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
-
-//    private void setupSharedPreferencesNew() {
-//        // Get all of the values from shared preferences to set it up
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//
-//        AppSettings.loadColorFromPreferences(sharedPreferences, this, btnLeftElem, btnRightElem, settingsHelper);
-//        AppSettings.loadSizeFromSharedPreferences(sharedPreferences, this, btnLeftElem, btnRightElem, settingsHelper);
-//        AppSettings.loadAlphaFromSharedPreferences(sharedPreferences, this, btnLeftElem, btnRightElem, settingsHelper);
-//        AppSettings.loadAlphaSearchButton(sharedPreferences, this, btnSearch, settingsHelper);
-////        loadFormFromSharedPreferences(sharedPreferences);
-//
-//        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-//    }
 
     private void loadColorFromPreferences(SharedPreferences sharedPreferences) {
         settingsHelper.chooseFormLeftElem(sharedPreferences.getString(getString(R.string.pref_color_key),
@@ -242,9 +226,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 getString(R.string.pref_size_default)));
         int minSizeSearch = Integer.parseInt(sharedPreferences.getString(getString(R.string.pref_size_key_search),
                 getString(R.string.pref_size_default_search)));
-//
-//        int newSize = Integer.parseInt(sharedPreferences.getString(getString(R.string.seekbar_size_main_elems),
-//                getString(R.string.pref_size_default)));
 
         settingsHelper.setSizeMainElems(btnLeftElem, minSize);
         settingsHelper.setSizeMainElems(btnRightElem, minSize);
@@ -316,75 +297,30 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("appsLeft", String.valueOf(arrayListLeft.size()));
         Log.d("appsRight", String.valueOf(arrayListLeft.size()));
         Log.d("allApps", String.valueOf(allApps.size()));
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 
     private void initSettings() {
-        SharedPreferences spLeftList = getSharedPreferences(SettingsHelper.PREF_LEFT_LIST,
-                Context.MODE_PRIVATE);
-        SharedPreferences spRightList = getSharedPreferences(SettingsHelper.PREF_RIGHT_LIST,
-                Context.MODE_PRIVATE);
-        SharedPreferences spSearchBar = getSharedPreferences(SettingsHelper.PREF_SEARCHBAR,
-                Context.MODE_PRIVATE);
-        SharedPreferences spSearchList = getSharedPreferences(SettingsHelper.PREF_SEARCHLIST,
-                Context.MODE_PRIVATE);
-        SharedPreferences spMenu = getSharedPreferences(SettingsHelper.PREF_MENU,
-                Context.MODE_PRIVATE);
-        SharedPreferences spSeekbar = getSharedPreferences(SettingsHelper.PREF_SEEKBAR_SIZE_MAIN,
-                Context.MODE_PRIVATE);
-        SharedPreferences spSeekbarAlphaMain = getSharedPreferences(SettingsHelper.PREF_SEEKBAR_ALPHA_MAIN,
-                Context.MODE_PRIVATE);
-        SharedPreferences spSeekbarAlphaSearch = getSharedPreferences(SettingsHelper.PREF_SEEKBAR_ALPHA_SEARCH_BUTTON,
-                Context.MODE_PRIVATE);
-        SharedPreferences spUrl = getSharedPreferences(SettingsHelper.PREF_URL,
-                Context.MODE_PRIVATE);
+        new AppSettings(this).returnHomePreferences(rvLeft, rvRight, searchBar, flSearch,
+                menu, settingsHelper, btnLeftElem, btnRightElem, btnSearch);
+//        fillHomeViews(rvLeft, rvRight, searchBar, flSearch,
+//                menu, settingsHelper, btnLeftElem, btnRightElem, btnSearch);
+//        new AppSettings(this);
+    }
 
-        if (spLeftList.contains(SettingsHelper.KEY_LEFT_LIST)) {
-            rvLeft.setBackgroundColor(spLeftList.getInt(SettingsHelper.KEY_LEFT_LIST, 0));
+    private void fillHomeViews(View... views) {
+        String key;
+        for (View view : views) {
+            key = view.toString();
+            homeViews.put(key, view);
         }
-
-        if (spRightList.contains(SettingsHelper.KEY_RIGHT_LIST)) {
-            rvRight.setBackgroundColor(spRightList.getInt(SettingsHelper.KEY_RIGHT_LIST, 0));
-        }
-
-        if (spSearchBar.contains(SettingsHelper.KEY_SEARCHBAR)) {
-            searchBar.setBackgroundColor(spSearchBar.getInt(SettingsHelper.KEY_SEARCHBAR, 0));
-        }
-
-        if (spSearchList.contains(SettingsHelper.KEY_SEARCHLIST)) {
-            flSearch.setBackgroundColor(spSearchList.getInt(SettingsHelper.KEY_SEARCHLIST, 0));
-        }
-
-        if (spMenu.contains(SettingsHelper.KEY_MENU)) {
-            menu.setBackgroundColor(spMenu.getInt(SettingsHelper.KEY_MENU, 0));
-        }
-
-        if (spSeekbar.contains(SettingsHelper.KEY_SEEKBAR_SIZE_MAIN)) {
-            int result = (spSeekbar.getInt(SettingsHelper.KEY_SEEKBAR_SIZE_MAIN, 0));
-            settingsHelper.setSizeMainElems(btnLeftElem, result);
-            settingsHelper.setSizeMainElems(btnRightElem, result);
-        }
-
-        if (spSeekbarAlphaMain.contains(SettingsHelper.KEY_SEEKBAR_ALPHA_MAIN)) {
-            float currentAlpha = (float) (spSeekbarAlphaMain.getInt(SettingsHelper.KEY_SEEKBAR_ALPHA_MAIN, 0));
-            setAlphaMainElems(currentAlpha);
-            settingsHelper.setAlphaMainButtons(btnLeftElem, currentAlpha);
-            settingsHelper.setAlphaMainButtons(btnRightElem, currentAlpha);
-        }
-
-
-        if (spSeekbarAlphaSearch.contains(SettingsHelper.KEY_SEEKBAR_ALPHA_SEARCH_BUTTON)) {
-            float currentAlpha = (float) (spSeekbarAlphaSearch.getInt(SettingsHelper.KEY_SEEKBAR_ALPHA_SEARCH_BUTTON, 0));
-            setAlphaSearch(currentAlpha);
-            settingsHelper.setAlphaSearchButton(btnSearch, currentAlpha);
-        }
-
-        if (spUrl.contains(SettingsHelper.KEY_URL)) {
-//            CentralMenuFragment.url = (spUrl.getString(SettingsHelper.KEY_URL, ""));
-            setUrl(spUrl.getString(SettingsHelper.KEY_URL, ""));
-        }
-
-
     }
 
 
@@ -487,24 +423,23 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_add_left:
                 ValueController.setPointer(ADD_APPS_LEFT);
                 overridePendingTransition(0, 0);
-                sendIntent(DefaultAppsActivity.class);
+                new Intent(this, DefaultAppsActivity.class);
                 AnimHelper.makeGone(menu);
                 break;
 
             case R.id.btn_add_right:
                 ValueController.setPointer(ADD_APPS_RIGHT);
                 overridePendingTransition(0, 0);
-                sendIntent(DefaultAppsActivity.class);
+                startActivity(new Intent(this, DefaultAppsActivity.class));
                 AnimHelper.makeGone(menu);
                 break;
 
             case R.id.btn_theme:
-                Intent intent = new Intent(Intent.ACTION_SET_WALLPAPER);
-                startActivity(Intent.createChooser(intent, getString(R.string.wallpaper_pick)));
+                startActivity(Intent.createChooser(new Intent(Intent.ACTION_SET_WALLPAPER), getString(R.string.wallpaper_pick)));
                 break;
 
             case R.id.btn_settings:
-                sendIntent(SettingsActivity.class);
+                startActivity(new Intent(this, SettingsActivity.class));
                 break;
 
             case R.id.btn_search:
@@ -517,7 +452,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn_all_apps:
                 ValueController.setPointer(OPEN_ALL_APPS);
-                sendIntent(AllAppsActivity.class);
+                startActivity(new Intent(this, AllAppsActivity.class));
                 break;
         }
     }
@@ -535,7 +470,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 .arrayList(allApps)
                 .viewsGone(btnLeftElem, btnRightElem, btnSearch)
                 .searchViews(flSearch)
-                .layoutManager(linearLayoutManager3)
+                .layoutManager(managerSearch)
                 .specificValue(result)
                 .build();
 
@@ -562,6 +497,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         if (getAdditionalMenuState()) {
             mainElemsTouchListener.onRightToLeftSwipe();
         }
+
     }
 
     @Override
@@ -571,12 +507,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         AnimHelper.makeVisibleWithAlpha(btnLeftElem, btnRightElem);
         AnimHelper.makeVisibleWithAlpha(this, btnSearch);
     }
-
-    public void sendIntent(Class activity) {
-        Intent intent = new Intent(this, activity);
-        startActivity(intent);
-    }
-
 
     private boolean isCentralMenuVisible = false;
 
@@ -676,7 +606,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onLoaderReset(Loader loader) {
         adapterAllApps.notifyDataSetChanged();
     }
-
 
     static boolean lockState = false;
 

@@ -13,18 +13,6 @@
 //
 //public class MenuCallback   {
 //
-//    public void callCentralMenu() {
-//        new Thread(() -> {
-//            fragmentManager = getFragmentManager();
-//            fragmentTransaction = fragmentManager.beginTransaction();
-//            centralMenu = new CentralMenuFragment();
-//            fragmentTransaction.add(R.id.layout_home, centralMenu, "CENTRAL_MENU");
-//            fragmentTransaction.commit();
-//        }).start();
-//    }
 //
-//    public MenuCallback(FragmentManager fragmentManager) {
-//        fragmentManager = getFragmentManager();
-//    }
 //
 //}

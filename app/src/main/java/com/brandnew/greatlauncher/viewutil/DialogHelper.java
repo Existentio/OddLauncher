@@ -72,14 +72,13 @@ public class DialogHelper {
     }
 
     public void buildSeekBarDialog() {
-        final int incrementValue = 1;
         new MaterialDialog.Builder(context)
                 .title(R.string.del_current_app)
                 .positiveText(R.string.positive_response)
                 .onPositive((dialog, which) ->  {
                         final SeekBar seek = new SeekBar(context);
                         seek.setMax(400);
-                        seek.setKeyProgressIncrement(incrementValue);
+                        seek.setKeyProgressIncrement(1);
                 })
                 .show();
 

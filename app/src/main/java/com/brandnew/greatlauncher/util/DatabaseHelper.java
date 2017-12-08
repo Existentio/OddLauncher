@@ -17,7 +17,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "apps.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static final String DB_TABLE_LEFT = "lapps";
     private static final String DB_TABLE_RIGHT = "rapps";
     private static final String COLUMN_ID = "_id";
@@ -42,18 +42,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
     private Context context;
-
-    AppManager appManager;
-//    private List<AppInfo> arrayListLeft = AppManager.appsLeft;
-//    private List<AppInfo> arrayListRight = AppManager.appsRight;
-//
+    private AppManager appManager;
     private List<AppInfo> arrayListLeft;
     private List<AppInfo> arrayListRight;
-
-
     private Cursor cursor;
-
-
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -141,7 +133,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return list;
     }
-
 
 
     public void close() {
