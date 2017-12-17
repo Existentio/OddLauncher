@@ -50,7 +50,7 @@ public class AppHolder extends RecyclerView.ViewHolder implements View.OnClickLi
         appManager = new AppManager(BaseApplication.get());
         itemView.setOnClickListener(this);
 
-        manager = appManager.manager;
+        manager = appManager.getManager();
         apps = appManager.listProvider("all_apps");
         appsRight = appManager.listProvider("right_table");
         appsLeft = appManager.listProvider("left_table");
@@ -88,7 +88,7 @@ public class AppHolder extends RecyclerView.ViewHolder implements View.OnClickLi
         } else if (result.equals(OPEN_SEARCH_APPS)) {
             intent = manager.getLaunchIntentForPackage(appManager.getListCode(appsForSearch, position));
             context.startActivity(intent);
-            HomeActivity.viewLocker();
+            HomeActivity.viewLock();
         } else if (result.equals(OPEN_ALL_APPS)) {
             intent = manager.getLaunchIntentForPackage(appManager.getListCode(apps, position));
             context.startActivity(intent);

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class AppManager {
 
-    public PackageManager manager;
+    private PackageManager manager;
 
     private static List<AppInfo> allApps = new ArrayList<>();
     private static List<AppInfo> leftTableApps = new CustomArrayList<>();
@@ -92,5 +92,7 @@ public class AppManager {
         return list.get(position).getId();
     }
 
-
+    public PackageManager getManager() {
+        return manager;
+    }
 }

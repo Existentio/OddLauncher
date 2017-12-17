@@ -41,18 +41,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 setPreferenceSummary(p, value);
             }
 
-//            Preference preferenceSearch = findPreference(getString(R.string.pref_size_key_search));
-//            Preference alpha = findPreference(getString(R.string.pref_alpha_key));
-//            Preference alphaSearch = findPreference(getString(R.string.pref_alpha_search_button_key));
-//
-//            alpha.setOnPreferenceChangeListener(this);
-//            alphaSearch.setOnPreferenceChangeListener(this);
-//
-//            Preference preferenceForm = findPreference(getString(R.string.pref_form_key));
-
-//            preferenceSearch.setOnPreferenceChangeListener(this);
-//            preferenceForm.setOnPreferenceChangeListener(this);
-
         }
     }
 
@@ -136,10 +124,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             settingsHelper.setPref(SettingsHelper.PREF_SEEKBAR_ALPHA_SEARCH_BUTTON);
         }
 
-//        if (key.equals((getString(R.string.pref_left_list_text_color)))) {
-//            settingsHelper.setColorForViews(SettingsHelper.KEY_LEFT_LIST_TEXT);
-//            settingsHelper.setPref(SettingsHelper.PREF_LEFT_LIST_TEXT);
-//        }
         return super.onPreferenceTreeClick(preference);
 
     }

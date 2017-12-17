@@ -16,7 +16,7 @@ import com.brandnew.greatlauncher.util.AnimHelper;
 
 public class MainElemsTouchListener implements TouchListener {
     static final String logTag = "ActivitySwipeDetector";
-    static final int MIN_DISTANCE = 100;//
+    static final int MIN_DISTANCE = 100;
     private Activity activity;
     private float downX, downY, upX, upY;
     private HomeActivity home;
@@ -96,7 +96,7 @@ public class MainElemsTouchListener implements TouchListener {
 
     @Override
     public void onRightToLeftSwipe() {
-        if (home.getPointer()) {
+        if (home.getAnimated()) {
             home.moveBackMainElems();
             home.mainElemsState(false);
         }

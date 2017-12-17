@@ -45,8 +45,8 @@ public class RecyclerItemSwiper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
         final int position = viewHolder.getAdapterPosition();
-        DialogHelper deleteItemDialog = new DialogHelper(context);
-        deleteItemDialog.buildDeleteDialog(position, adapter, list, tag, db);
+        DialogHelper dialog = new DialogHelper(context);
+        dialog.buildDeleteDialog(position, adapter, list, tag, db);
     }
 }
 

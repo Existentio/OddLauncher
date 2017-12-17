@@ -3,7 +3,6 @@ package com.brandnew.greatlauncher.activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.Loader;
 
 import android.content.Intent;
@@ -55,11 +54,13 @@ import static com.brandnew.greatlauncher.util.ValueController.*;
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener,
         AppearanceAnimator, OnSearchListener, SharedPreferences.OnSharedPreferenceChangeListener,
         LoaderCallbacks<Boolean> {
+
     private EditText searchText;
     private LinearLayout searchBar;
     private RecyclerView rvSearch;
     private ImageButton btnLeftElem, btnRightElem, btnSearch, btnAddLeft, btnAddRight,
             btnDecSearch, btnCancelSearch, btnTheme, btnSettings;
+
     private FrameLayout frameRight, frameLeft;
 
     private RelativeLayout rlHome;
@@ -74,9 +75,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private AppManager manager = new AppManager(BaseApplication.get());
     private List<AppInfo> arrayListLeft = manager.listProvider("left_table");
     private List<AppInfo> arrayListRight = manager.listProvider("right_table");
-    private List<AppInfo> allApps = manager.listProvider("all_apps"); //was .apps
+    private List<AppInfo> allApps = manager.listProvider("all_apps");
 
-    private AppAdapter adapterLeft = new AppAdapter(this, arrayListLeft);  //was ok
+    private AppAdapter adapterLeft = new AppAdapter(this, arrayListLeft);
     private AppAdapter adapterRight = new AppAdapter(this, arrayListRight);
 
     private AppAdapter adapterAllApps;
@@ -86,27 +87,28 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private SettingsHelper settingsHelper;
     private SettingsHelper settingsHelperSearch;
 
-    public static float ALPHA_VALUE;
-    public static float ALPHA_VALUE_SEARCH;
-    private static boolean LEFT_IS_OPENED = false;
-    private static boolean RIGHT_IS_OPENED = false;
-    private static boolean ADDITIONAL_MENU_IS_VISIBLE = false;
+
+
+    private boolean LEFT_IS_OPENED = false;
+    private boolean RIGHT_IS_OPENED = false;
+    private boolean ADDITIONAL_MENU_IS_VISIBLE = false;
 
     private static final int LOADER_MAIN_ID = 0;
 
-//    private View newFeature;
 
     public static final String mypreference = "mypref";
-    static boolean pointer = false;
-    Animation spreading;
-    CentralMenuFragment centralMenu;
-    GridLayout containerMenu;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
+
+    private boolean isAnimated = false;
+    private Animation spreading;
+    private CentralMenuFragment centralMenu;
+    private GridLayout containerMenu;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
 
     private Map<String, View> homeViews = new HashMap<>();
-
+    public static float ALPHA_VALUE;
+    public static float ALPHA_VALUE_SEARCH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,7 +281,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         initSettings();
 
-        if (viewLocker()) {
+        if (viewLock()) {
             onConstrict();
             AnimHelper.makeGone(frameRight, frameLeft);
             AnimHelper.makeVisibleWithAlpha(btnRightElem, btnLeftElem);
@@ -288,7 +290,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             setStateForRightElem(false);
             lockState = false;
 
-            if (getPointer()) {
+            if (getAnimated()) {
                 mainElemsState(false);
                 moveBackMainElems();
             }
@@ -310,9 +312,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void initSettings() {
         new AppSettings(this).returnHomePreferences(rvLeft, rvRight, searchBar, flSearch,
                 menu, settingsHelper, btnLeftElem, btnRightElem, btnSearch);
-//        fillHomeViews(rvLeft, rvRight, searchBar, flSearch,
-//                menu, settingsHelper, btnLeftElem, btnRightElem, btnSearch);
-//        new AppSettings(this);
     }
 
     private void fillHomeViews(View... views) {
@@ -345,36 +344,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } else if (key.equals(getString(R.string.pref_search_url))) {
             changeUrl(sharedPreferences);
         }
-
-
-        /*else if (key.equals(getString(R.string.pref_search_url))) {
-                int minSize = Integer.parseInt(sharedPreferences.getString(getString(R.string.pref_size_key), "1.0"));
-                tv.setText(String.valueOf(minSize));
-        }*/
-
-        /*else if (key.equals(getString(R.string.pref_size_key_search))) {
-            loadSizeFromSharedPreferences(sharedPreferences);
-        } else if (key.equals(getString(R.string.pref_size_key_search))) {
-            loadSizeFromSharedPreferences(sharedPreferences);
-        } */
     }
 
-    private static void setStateForLeftElem(boolean state) {
+    private void setStateForLeftElem(boolean state) {
         LEFT_IS_OPENED = state;
-//        if (state) {
-//            RIGHT_IS_OPENED = false;
-//        }
     }
 
-    private static boolean getStateForLeftElem() {
+    private boolean getStateForLeftElem() {
         return LEFT_IS_OPENED;
     }
 
-    private static void setStateForRightElem(boolean state) {
+    private void setStateForRightElem(boolean state) {
         RIGHT_IS_OPENED = state;
     }
 
-    private static boolean getStateForRightElem() {
+    private boolean getStateForRightElem() {
         return RIGHT_IS_OPENED;
     }
 
@@ -423,7 +407,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_add_left:
                 ValueController.setPointer(ADD_APPS_LEFT);
                 overridePendingTransition(0, 0);
-                new Intent(this, DefaultAppsActivity.class);
+                startActivity(new Intent(this, DefaultAppsActivity.class));
                 AnimHelper.makeGone(menu);
                 break;
 
@@ -510,19 +494,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean isCentralMenuVisible = false;
 
-//    private boolean isCentralMenuCalled() {
-//        return isCentralMenuVisible = true;
-//    }
-
     public void moveApartMainElems() {
         ((Runnable) () -> {
-            if ((rlHome != null) && (!getPointer())) {
+            if ((rlHome != null) && (!getAnimated())) {
                 animMainElems();
             }
         }).run();
         isCentralMenuVisible = true;
     }
 
+    //animate main elems on the screen
     public void animMainElems() {
         spreading = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move_left);
         btnLeftElem.startAnimation(spreading);
@@ -549,21 +530,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-
-    //TODO rename this later
-    public static void mainElemsState(boolean pointer) {
-        HomeActivity.pointer = pointer;
+    public void mainElemsState(boolean state) {
+        this.isAnimated = state;
     }
 
-    public static boolean getPointer() {
-        return pointer;
+    public boolean getAnimated() {
+        return isAnimated;
     }
 
-    public static void setAdditionalMenuState(boolean state) {
-        HomeActivity.ADDITIONAL_MENU_IS_VISIBLE = state;
+    public void setAdditionalMenuState(boolean state) {
+        ADDITIONAL_MENU_IS_VISIBLE = state;
     }
 
-    public static boolean getAdditionalMenuState() {
+    public boolean getAdditionalMenuState() {
         return ADDITIONAL_MENU_IS_VISIBLE;
     }
 
@@ -608,8 +587,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     static boolean lockState = false;
-
-    public static boolean viewLocker() {
+    public static boolean viewLock() {
         return lockState = true;
     }
 
