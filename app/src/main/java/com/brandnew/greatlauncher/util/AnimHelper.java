@@ -87,10 +87,8 @@ public class AnimHelper {
 
 
     public static void startAnim(View view, int animation) {
-//        ((Runnable) () -> {
         Animation anim = setAnim(animation);
         view.startAnimation(anim);
-//        }).run();
     }
 
     public static Animation setAnim(int anim) {
