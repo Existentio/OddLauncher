@@ -8,11 +8,11 @@ import android.graphics.drawable.Drawable;
 
 public class AppInfo {
     private String name;
-    private CharSequence code;
+    private String code;
     private Drawable icon;
     private int id;
 
-    public AppInfo(String name, CharSequence code, Drawable icon, int id) {
+    public AppInfo(String name, String code, Drawable icon, int id) {
         this.name = name;
         this.code = code;
         this.icon = icon;
@@ -23,11 +23,11 @@ public class AppInfo {
         return id;
     }
 
-    public CharSequence getName() {
+    public String getName() {
         return name;
     }
 
-    public CharSequence getCode() {
+    public String getCode() {
         return code;
     }
 

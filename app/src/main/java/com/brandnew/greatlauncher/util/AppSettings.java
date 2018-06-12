@@ -38,9 +38,9 @@ public class AppSettings extends SettingsHelper{
         Map<String, View> hv1 = hv;
     }
 
-    public  void returnHomePreferences(RecyclerView rvLeft, RecyclerView rvRight, LinearLayout searchBar, FrameLayout flSearch,
-                                        View menu, SettingsHelper settingsHelper, ImageButton btnLeftElem, ImageButton btnRightElem,
-                                        ImageButton btnSearch) {
+    public  void getHomePreferences(RecyclerView rvLeft, RecyclerView rvRight, LinearLayout searchBar, FrameLayout flSearch,
+                                    View menu, SettingsHelper settingsHelper, ImageButton btnLeftElem, ImageButton btnRightElem,
+                                    ImageButton btnSearch) {
         SharedPreferences spLeftList = context.getSharedPreferences(SettingsHelper.PREF_LEFT_LIST,
                 Context.MODE_PRIVATE);
         SharedPreferences spRightList = context.getSharedPreferences(SettingsHelper.PREF_RIGHT_LIST,

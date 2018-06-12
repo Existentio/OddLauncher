@@ -12,7 +12,7 @@ import com.brandnew.greatlauncher.model.AppInfo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import static com.brandnew.greatlauncher.util.Constants.*;
 /**
  * Created by Георгий on 05.07.2017.
  */
@@ -24,12 +24,7 @@ public class AppManager {
     private static List<AppInfo> allApps = new ArrayList<>();
     private static List<AppInfo> leftTableApps = new CustomArrayList<>();
     private static List<AppInfo> rightTableApps = new CustomArrayList<>();
-    private static List<AppInfo> returnedList = new ArrayList<>();
-
-    private List<AppInfo> mLeftTableApps = leftTableApps;
-    private List<AppInfo> mRightTableApps = rightTableApps;
-    private List<AppInfo> mDefaultApps = allApps;
-    private List<AppInfo> mSearchApps = returnedList;
+    private static List<AppInfo> searchedApps = new ArrayList<>();
 
     public AppManager(Context context) {
         this.manager = context.getPackageManager();
@@ -58,33 +53,33 @@ public class AppManager {
 
     public List<AppInfo> listProvider(String key) {
         switch (key) {
-            case "left_table":
-                return mLeftTableApps;
-            case "right_table":
-                return mRightTableApps;
-            case "all_apps":
-                return mDefaultApps;
-            case "search_apps":
-                return mSearchApps;
+            case LEFT_TABLE:
+                return leftTableApps;
+            case RIGHT_TABLE:
+                return rightTableApps;
+            case ALL_APPS:
+                return allApps;
+            case SEARCH_APPS:
+                return searchedApps;
         }
-        return mDefaultApps;
+        return allApps;
     }
 
     /**
      * Method returns filtered apps in search bar
      **/
     public List<AppInfo> returnRefreshedList(List<AppInfo> list) {
-        return returnedList = list;
+        return searchedApps = list;
     }
 
     @NonNull
     public String getListName(List<AppInfo> list, int position) {
-        return list.get(position).getName().toString();
+        return list.get(position).getName();
     }
 
     @NonNull
     public String getListCode(List<AppInfo> list, int position) {
-        return list.get(position).getCode().toString();
+        return list.get(position).getCode();
     }
 
     @NonNull

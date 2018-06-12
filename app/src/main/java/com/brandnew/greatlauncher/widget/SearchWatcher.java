@@ -132,7 +132,7 @@ public class SearchWatcher implements TextWatcher {
         new AppManager(BaseApplication.get()).returnRefreshedList(filteredList);
 
         for (int i = 0; i < list.size(); i++) {
-            final String text = list.get(i).getName().toString().toLowerCase();
+            final String text = list.get(i).getName().toLowerCase();
             if (text.startsWith(query.toString())) {
                 filteredList.add(list.get(i));
             }

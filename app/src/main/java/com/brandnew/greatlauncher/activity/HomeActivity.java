@@ -7,6 +7,8 @@ import android.content.Loader;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
@@ -39,17 +41,18 @@ import com.brandnew.greatlauncher.util.SettingsHelper;
 import com.brandnew.greatlauncher.util.ValueController;
 import com.brandnew.greatlauncher.util.OnSearchListener;
 import com.brandnew.greatlauncher.util.Utils;
+import com.brandnew.greatlauncher.viewutil.UiDataInspector;
+import com.brandnew.greatlauncher.viewutil.UiObserver;
 import com.brandnew.greatlauncher.widget.MainElemsTouchListener;
 import com.brandnew.greatlauncher.widget.RecyclerItemSwiper;
 import com.brandnew.greatlauncher.widget.SearchWatcher;
 
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.*;
 import static com.brandnew.greatlauncher.util.ValueController.*;
+import static com.brandnew.greatlauncher.util.Constants.*;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener,
         AppearanceAnimator, OnSearchListener, SharedPreferences.OnSharedPreferenceChangeListener,
@@ -65,7 +68,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private RelativeLayout rlHome;
     private View centralView;
-    //    private AppManager manager;
     private DatabaseHelper db;
     private LoaderManager loaderManager;
     private View menu;
@@ -73,12 +75,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private FrameLayout flSearch;
 
     private AppManager manager = new AppManager(BaseApplication.get());
-    private List<AppInfo> arrayListLeft = manager.listProvider("left_table");
-    private List<AppInfo> arrayListRight = manager.listProvider("right_table");
-    private List<AppInfo> allApps = manager.listProvider("all_apps");
+    private List<AppInfo> arrayListLeft = manager.listProvider(LEFT_TABLE);
+    private List<AppInfo> arrayListRight = manager.listProvider(RIGHT_TABLE);
+    private List<AppInfo> allApps = manager.listProvider(ALL_APPS);
 
-    private AppAdapter adapterLeft = new AppAdapter(this, arrayListLeft);
-    private AppAdapter adapterRight = new AppAdapter(this, arrayListRight);
+    private AppAdapter adapterLeftList = new AppAdapter(this, arrayListLeft);
+    private AppAdapter adapterRightList = new AppAdapter(this, arrayListRight);
 
     private AppAdapter adapterAllApps;
     private MainElemsTouchListener mainElemsTouchListener;
@@ -87,14 +89,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private SettingsHelper settingsHelper;
     private SettingsHelper settingsHelperSearch;
 
-
-
     private boolean LEFT_IS_OPENED = false;
     private boolean RIGHT_IS_OPENED = false;
-    private boolean ADDITIONAL_MENU_IS_VISIBLE = false;
 
     private static final int LOADER_MAIN_ID = 0;
-
 
     public static final String mypreference = "mypref";
 
@@ -106,7 +104,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private FragmentTransaction fragmentTransaction;
 
 
-    private Map<String, View> homeViews = new HashMap<>();
     public static float ALPHA_VALUE;
     public static float ALPHA_VALUE_SEARCH;
 
@@ -129,6 +126,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         menu = findViewById(R.id.my_fragment);
         centralView = findViewById(R.id.center_view);
         menu.setVisibility(View.GONE);
+
         //search
         searchText = (EditText) findViewById(R.id.search_bar_text);
         flSearch = (FrameLayout) findViewById(R.id.frame_search);
@@ -171,16 +169,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         //handling swipe action
         new RecyclerItemSwiper(0, LEFT | RIGHT, this,
-                adapterLeft, arrayListLeft, db, "left", rvLeft);
+                adapterLeftList, arrayListLeft, db, "left", rvLeft);
 
         new RecyclerItemSwiper(0, LEFT | RIGHT, this,
-                adapterRight, arrayListRight, db, "right", rvRight);
+                adapterRightList, arrayListRight, db, "right", rvRight);
 
         setupSharedPreferences();
-//        setupSharedPreferencesNew();
-//        rlHome.setOnTouchListener(new RelativeLayoutTouchListener(this));
         mainElemsTouchListener = new MainElemsTouchListener(this, centralMenu, menu, rlHome);
         rlHome.setOnTouchListener(mainElemsTouchListener);
+
     }
 
 
@@ -189,17 +186,43 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         //do nothing because we don't want to close our launcher
     }
 
+
+    public static void setAlphaMainElems(float value) {
+        ALPHA_VALUE = value / 10;
+    }
+
+    public static float getAlphaMainElems() {
+        return ALPHA_VALUE;
+    }
+
+    public static void setAlphaSearch(float value) {
+        ALPHA_VALUE_SEARCH = value / 10;
+    }
+
+    public static float getAlphaSearch() {
+        return ALPHA_VALUE_SEARCH;
+    }
+
+
+    public static void setUrl(String homeUrl) {
+        CentralMenuFragment.url = homeUrl;
+    }
+
+    public static String getUrl() {
+        return CentralMenuFragment.url;
+    }
+
     private void initApps(List<AppInfo> list) {
         db.getApps(list);
 
         if (arrayListLeft.size() > 0) {
-            rvLeft.setAdapter(adapterLeft);
-            adapterLeft.notifyDataSetChanged();
+            rvLeft.setAdapter(adapterLeftList);
+            adapterLeftList.notifyDataSetChanged();
         }
 
         if (arrayListRight.size() > 0) {
-            rvRight.setAdapter(adapterRight);
-            adapterRight.notifyDataSetChanged();
+            rvRight.setAdapter(adapterRightList);
+            adapterRightList.notifyDataSetChanged();
         }
     }
 
@@ -212,7 +235,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         loadSizeFromSharedPreferences(sharedPreferences);
         loadAlphaFromSharedPreferences(sharedPreferences);
         loadAlphaSearchButton(sharedPreferences);
-        changeUrl(sharedPreferences);
+        determineUrl(sharedPreferences);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -251,28 +274,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         settingsHelper.setAlphaSearchButton(btnSearch, currentAlpha);
     }
 
-    public static void setAlphaMainElems(float value) {
-        ALPHA_VALUE = value / 10;
-    }
-
-    public static float getAlphaMainElems() {
-        return ALPHA_VALUE;
-    }
-
-    public static void setAlphaSearch(float value) {
-        ALPHA_VALUE_SEARCH = value / 10;
-    }
-
-    public static float getAlphaSearch() {
-        return ALPHA_VALUE_SEARCH;
-    }
-
-    public static void setUrl(String homeUrl) {
-        CentralMenuFragment.url = homeUrl;
-    }
-
-    public static String getUrl() {
-        return CentralMenuFragment.url;
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
 
@@ -281,24 +285,28 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         initSettings();
 
-        if (viewLock()) {
+        if (mainElemsAreDivided()) {
             onConstrict();
             AnimHelper.makeGone(frameRight, frameLeft);
             AnimHelper.makeVisibleWithAlpha(btnRightElem, btnLeftElem);
             AnimHelper.makeVisibleWithAlpha(this, btnSearch);
             setStateForLeftElem(false);
             setStateForRightElem(false);
-            lockState = false;
 
-            if (getAnimated()) {
+            if (mainElemsAreDivided()) {
                 mainElemsState(false);
-                moveBackMainElems();
+                new Handler().postDelayed(() -> moveBackMainElems(), 1000);
             }
         }
 
         Log.d("appsLeft", String.valueOf(arrayListLeft.size()));
         Log.d("appsRight", String.valueOf(arrayListLeft.size()));
         Log.d("allApps", String.valueOf(allApps.size()));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        //
     }
 
     @Override
@@ -310,20 +318,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initSettings() {
-        new AppSettings(this).returnHomePreferences(rvLeft, rvRight, searchBar, flSearch,
+        new AppSettings(this).getHomePreferences(rvLeft, rvRight, searchBar, flSearch,
                 menu, settingsHelper, btnLeftElem, btnRightElem, btnSearch);
     }
 
-    private void fillHomeViews(View... views) {
-        String key;
-        for (View view : views) {
-            key = view.toString();
-            homeViews.put(key, view);
-        }
-    }
 
-
-    private void changeUrl(SharedPreferences sharedPreferences) {
+    private void determineUrl(SharedPreferences sharedPreferences) {
         String url = sharedPreferences.getString(getString(R.string.pref_search_url),
                 getString(R.string.pref_url_default));
         setUrl(url);
@@ -342,25 +342,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } else if (key.equals(getString(R.string.pref_alpha_search_button_key))) {
             loadAlphaSearchButton(sharedPreferences);
         } else if (key.equals(getString(R.string.pref_search_url))) {
-            changeUrl(sharedPreferences);
+            determineUrl(sharedPreferences);
         }
     }
 
-    private void setStateForLeftElem(boolean state) {
-        LEFT_IS_OPENED = state;
+
+    public void mainElemsState(boolean state) {
+        this.isAnimated = state;
     }
 
-    private boolean getStateForLeftElem() {
-        return LEFT_IS_OPENED;
+    public boolean mainElemsAreDivided() {
+        return isAnimated;
     }
 
-    private void setStateForRightElem(boolean state) {
-        RIGHT_IS_OPENED = state;
-    }
-
-    private boolean getStateForRightElem() {
-        return RIGHT_IS_OPENED;
-    }
 
     @Override
     public void onClick(View v) {
@@ -478,10 +472,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         AnimHelper.makeGone(btnSearch);
         AnimHelper.startAnim(searchBar, R.anim.slide_right_long);
         AnimHelper.makeVisible(this, searchBar);
-        if (getAdditionalMenuState()) {
+        if (mainElemsAreDivided()) {
             mainElemsTouchListener.onRightToLeftSwipe();
         }
-
     }
 
     @Override
@@ -496,11 +489,25 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public void moveApartMainElems() {
         ((Runnable) () -> {
-            if ((rlHome != null) && (!getAnimated())) {
+            if ((rlHome != null) && (!mainElemsAreDivided())) {
                 animMainElems();
             }
         }).run();
         isCentralMenuVisible = true;
+    }
+
+    public void moveBackMainElems() {
+        ((Runnable) () -> {
+            AnimHelper.startAnim(btnLeftElem, R.anim.move_left_return);
+            AnimHelper.startAnim(btnRightElem, R.anim.move_right_return);
+            centralMenu = (CentralMenuFragment) getFragmentManager().findFragmentByTag("CENTRAL_MENU");
+            if (centralMenu != null) {
+                getFragmentManager().beginTransaction().remove(centralMenu).commitAllowingStateLoss();
+            }
+            btnLeftElem.setClickable(true);
+            btnRightElem.setClickable(true);
+            isCentralMenuVisible = false;
+        }).run();
     }
 
     //animate main elems on the screen
@@ -530,42 +537,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    public void mainElemsState(boolean state) {
-        this.isAnimated = state;
-    }
-
-    public boolean getAnimated() {
-        return isAnimated;
-    }
-
-    public void setAdditionalMenuState(boolean state) {
-        ADDITIONAL_MENU_IS_VISIBLE = state;
-    }
-
-    public boolean getAdditionalMenuState() {
-        return ADDITIONAL_MENU_IS_VISIBLE;
-    }
-
     public void callCentralMenu() {
         new Thread(() -> {
             fragmentManager = getFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
             centralMenu = new CentralMenuFragment();
             fragmentTransaction.add(R.id.layout_home, centralMenu, "CENTRAL_MENU");
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         }).start();
-    }
-
-    public void moveBackMainElems() {
-        AnimHelper.startAnim(btnLeftElem, R.anim.move_left_return);
-        AnimHelper.startAnim(btnRightElem, R.anim.move_right_return);
-        centralMenu = (CentralMenuFragment) getFragmentManager().findFragmentByTag("CENTRAL_MENU");
-        if (centralMenu != null) {
-            getFragmentManager().beginTransaction().remove(centralMenu).commit();
-        }
-        btnLeftElem.setClickable(true);
-        btnRightElem.setClickable(true);
-        isCentralMenuVisible = false;
     }
 
 
@@ -586,11 +565,23 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         adapterAllApps.notifyDataSetChanged();
     }
 
-    static boolean lockState = false;
-    public static boolean viewLock() {
-        return lockState = true;
+
+
+    private void setStateForLeftElem(boolean state) {
+        LEFT_IS_OPENED = state;
     }
 
+    private boolean getStateForLeftElem() {
+        return LEFT_IS_OPENED;
+    }
+
+    private void setStateForRightElem(boolean state) {
+        RIGHT_IS_OPENED = state;
+    }
+
+    private boolean getStateForRightElem() {
+        return RIGHT_IS_OPENED;
+    }
 }
 
 

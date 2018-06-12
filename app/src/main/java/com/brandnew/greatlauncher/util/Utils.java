@@ -98,10 +98,10 @@ public class Utils {
    }
 
     public static final Comparator<AppInfo> NAME_ORDER_ASC =
-            (app1, app2) -> app1.getName().toString().toLowerCase().compareTo(app2.getName().toString().toLowerCase());
+            (app1, app2) -> app1.getName().toLowerCase().compareTo(app2.getName().toLowerCase());
 
     public static final Comparator<AppInfo> NAME_ORDER_DESC =
-            (app1, app2) -> app2.getName().toString().toLowerCase().compareTo(app1.getName().toString().toLowerCase());
+            (app1, app2) -> app2.getName().toLowerCase().compareTo(app1.getName().toLowerCase());
 
     public static int calculateNoOfColumns(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();

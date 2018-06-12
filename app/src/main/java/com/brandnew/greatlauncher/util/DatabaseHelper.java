@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.drawable.Drawable;
 
 import com.brandnew.greatlauncher.model.AppInfo;
-
+import static com.brandnew.greatlauncher.util.Constants.*;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "apps.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 1;
     private static final String DB_TABLE_LEFT = "lapps";
     private static final String DB_TABLE_RIGHT = "rapps";
     private static final String COLUMN_ID = "_id";
@@ -52,8 +52,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db = getWritableDatabase();
         this.context = context;
         appManager = new AppManager(context);
-        arrayListLeft = appManager.listProvider("left_table");
-        arrayListRight = appManager.listProvider("right_table");
+        arrayListLeft = appManager.listProvider(LEFT_TABLE);
+        arrayListRight = appManager.listProvider(RIGHT_TABLE);
 
     }
 
@@ -102,12 +102,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (list == (arrayListLeft)) {
             String[] applications = {COLUMN_ID, COLUMN_NAME_LEFT, COLUMN_CODE_LEFT};
             cursor = db.query(DB_TABLE_LEFT, applications,
-                    null, null, null, null, COLUMN_ID + " ASC");
+                    null,
+                    null,
+                    null,
+                    null,
+                    COLUMN_ID + " ASC");
         }
         if (list == (arrayListRight)) {
             String[] applications = {COLUMN_ID, COLUMN_NAME_RIGHT, COLUMN_CODE_RIGHT};
             cursor = db.query(DB_TABLE_RIGHT, applications,
-                    null, null, null, null, COLUMN_ID + " ASC");
+                    null,
+                    null,
+                    null,
+                    null,
+                    COLUMN_ID + " ASC");
         }
         return cursor;
     }

@@ -1,6 +1,5 @@
 package com.brandnew.greatlauncher.widget;
 
-import android.app.Activity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -17,7 +16,6 @@ import com.brandnew.greatlauncher.util.AnimHelper;
 public class MainElemsTouchListener implements TouchListener {
     static final String logTag = "ActivitySwipeDetector";
     static final int MIN_DISTANCE = 100;
-    private Activity activity;
     private float downX, downY, upX, upY;
     private HomeActivity home;
     private CentralMenuFragment centralMenu;
@@ -90,13 +88,12 @@ public class MainElemsTouchListener implements TouchListener {
 
     @Override
     public void onLeftToRightSwipe() {
-        home.setAdditionalMenuState(true);
         home.moveApartMainElems();
     }
 
     @Override
     public void onRightToLeftSwipe() {
-        if (home.getAnimated()) {
+        if (home.mainElemsAreDivided()) {
             home.moveBackMainElems();
             home.mainElemsState(false);
         }
